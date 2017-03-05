@@ -1,0 +1,83 @@
+@import "color-red";
+@import "color-pink";
+@import "color-purple";
+@import "color-deep-purple";
+@import "color-indigo";
+@import "color-blue";
+@import "color-light-blue";
+@import "color-cyan";
+@import "color-teal";
+@import "color-green";
+@import "color-light-green";
+@import "color-lime";
+@import "color-yellow";
+@import "color-amber";
+@import "color-orange";
+@import "color-deep-orange";
+@import "color-brown";
+@import "color-grey";
+@import "color-blue-grey";
+@import "color-black";
+@import "color-white";
+
+$all-colors: (
+        'red': $red-colors,
+        'pink': $pink-colors,
+        'purple': $purple-colors,
+        'deep-purple': $deep-purple-colors,
+        'indigo': $indigo-colors,
+        'blue': $blue-colors,
+        'light-blue': $light-blue-colors,
+        'cyan': $cyan-colors,
+        'teal': $teal-colors,
+        'green': $green-colors,
+        'light-green': $light-green-colors,
+        'lime': $lime-colors,
+        'yellow': $yellow-colors,
+        'amber': $amber-colors,
+        'orange': $orange-colors,
+        'deep-orange': $deep-orange-colors,
+        'brown': $brown-colors,
+        'grey': $grey-colors,
+        'blue-grey': $blue-grey-colors
+);
+
+$mono-colors: (
+        'black': $black-colors,
+        'white': $white-colors
+);
+
+@function getColorAll($colorName, $colorType, $colorLvl) {
+  $object: map_get($all-colors, $colorName);
+  $common-obj: map-get($object, $colorType);
+  @return map-get($common-obj, $colorLvl);
+}
+
+@function getColorMono($colorName, $colorLvl) {
+  $object: map_get($mono-colors, $colorName);
+  @return map-get($object, $colorLvl);
+}
+
+@function getColor($colorName, $colorLvl, $colorType) {
+  @if ($colorName == black or $colorName == 'black' or $colorName == white or $colorName == 'white') {
+    @if ($colorLvl == 0) {
+      $colorLvl: '';
+    }
+    @return getColorMono($colorName, $colorLvl);
+  } @else {
+    @if ($colorLvl == '') {
+      $colorLvl: 500;
+    }
+    @return getColorAll($colorName, $colorType, $colorLvl);
+  }
+}
+
+@function getBackgroundColor($colorName, $colorLvl: '', $colorType: common) {
+  $color: getColor($colorName, $colorLvl, $colorType);
+  @return map-get($color, bg);
+}
+
+@function getTextColor($colorName, $colorLvl: '', $colorType: common) {
+  $color: getColor($colorName, $colorLvl, $colorType);
+  @return map-get($color, tc);
+}

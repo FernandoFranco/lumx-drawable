@@ -1,0 +1,22 @@
+@import "../../../bower_components/lumx/core/scss/settings/_colors";
+
+$cyan-colors: (
+        common: (
+                50: (bg: $cyan-50, tc: $black-1),
+                100: (bg: $cyan-100, tc: $black-1),
+                200: (bg: $cyan-200, tc: $black-1),
+                300: (bg: $cyan-300, tc: $black-1),
+                400: (bg: $cyan-400, tc: $black-1),
+                500: (bg: $cyan-500, tc: $black-1),
+                600: (bg: $cyan-600, tc: $black-1),
+                700: (bg: $cyan-700, tc: $white-1),
+                800: (bg: $cyan-800, tc: $white-1),
+                900: (bg: $cyan-900, tc: $white-1)
+        ),
+        accent: (
+                100: (bg: $cyan-A100, tc: $black-1),
+                200: (bg: $cyan-A200, tc: $black-1),
+                400: (bg: $cyan-A400, tc: $black-1),
+                700: (bg: $cyan-A700, tc: $black-1)
+        )
+);

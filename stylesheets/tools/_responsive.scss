@@ -1,0 +1,28 @@
+@import "../../bower_components/lumx/dist/scss/settings/_responsive";
+@import "../../bower_components/lumx/dist/scss/tools/_responsive";
+
+$breakpoints_min: (
+        "palm" "xxs",
+        "lap" "xs",
+        "lap-and-up" "s",
+        "portable" "m",
+        "desk" "l",
+        "desk-wide" "xl",
+        "full-hd" "xxl",
+        "retina" "xxl"
+);
+
+$types: (
+        "hide" none,
+        "show" initial
+);
+
+@each $bp, $min in $breakpoints_min {
+  @each $type, $display in $types {
+    .#{$min}-#{$type} {
+      @include media-query($bp) {
+        display: $display;
+      }
+    }
+  }
+}

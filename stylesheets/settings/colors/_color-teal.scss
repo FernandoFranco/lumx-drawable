@@ -1,0 +1,22 @@
+@import "../../../bower_components/lumx/core/scss/settings/_colors";
+
+$teal-colors: (
+        common: (
+                50: (bg: $teal-50, tc: $black-1),
+                100: (bg: $teal-100, tc: $black-1),
+                200: (bg: $teal-200, tc: $black-1),
+                300: (bg: $teal-300, tc: $black-1),
+                400: (bg: $teal-400, tc: $black-1),
+                500: (bg: $teal-500, tc: $white),
+                600: (bg: $teal-600, tc: $white),
+                700: (bg: $teal-700, tc: $white),
+                800: (bg: $teal-800, tc: $white-1),
+                900: (bg: $teal-900, tc: $white-1)
+        ),
+        accent: (
+                100: (bg: $teal-A100, tc: $black-1),
+                200: (bg: $teal-A200, tc: $black-1),
+                400: (bg: $teal-A400, tc: $black-1),
+                700: (bg: $teal-A700, tc: $black-1)
+        )
+);

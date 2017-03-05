@@ -1,0 +1,16 @@
+@import "../../../bower_components/lumx/core/scss/settings/_colors";
+
+$blue-grey-colors: (
+        common: (
+                50: (bg: $blue-grey-50, tc: $black-1),
+                100: (bg: $blue-grey-100, tc: $black-1),
+                200: (bg: $blue-grey-200, tc: $black-1),
+                300: (bg: $blue-grey-300, tc: $black-1),
+                400: (bg: $blue-grey-400, tc: $white),
+                500: (bg: $blue-grey-500, tc: $white-1),
+                600: (bg: $blue-grey-600, tc: $white-1),
+                700: (bg: $blue-grey-700, tc: $white-1),
+                800: (bg: $blue-grey-800, tc: $white-1),
+                900: (bg: $blue-grey-900, tc: $white-1)
+        )
+);

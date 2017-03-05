@@ -1,0 +1,22 @@
+@import "../../../bower_components/lumx/core/scss/settings/_colors";
+
+$pink-colors: (
+        common: (
+                50: (bg: $pink-50, tc: $black-1),
+                100: (bg: $pink-100, tc: $black-1),
+                200: (bg: $pink-200, tc: $black-1),
+                300: (bg: $pink-300, tc: $white),
+                400: (bg: $pink-400, tc: $white-1),
+                500: (bg: $pink-500, tc: $white-1),
+                600: (bg: $pink-600, tc: $white-1),
+                700: (bg: $pink-700, tc: $white-1),
+                800: (bg: $pink-800, tc: $white-1),
+                900: (bg: $pink-900, tc: $white-1)
+        ),
+        accent: (
+                100: (bg: $pink-A100, tc: $black-1),
+                200: (bg: $pink-A200, tc: $white),
+                400: (bg: $pink-A400, tc: $white-1),
+                700: (bg: $pink-A700, tc: $white-1)
+        )
+);

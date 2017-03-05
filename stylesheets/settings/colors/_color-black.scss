@@ -1,0 +1,9 @@
+@import "../../../bower_components/lumx/core/scss/settings/_colors";
+
+$black-colors: (
+        '': (bg: $black, tc: $white),
+        1: (bg: $black-1, tc: $white),
+        2: (bg: $black-2, tc: $white),
+        3: (bg: $black-3, tc: $white),
+        4: (bg: $black-4, tc: $white)
+);

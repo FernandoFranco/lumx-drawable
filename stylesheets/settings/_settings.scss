@@ -1,0 +1,16 @@
+@import "../../bower_components/bourbon/app/assets/stylesheets/_bourbon";
+@import "../../bower_components/lumx/core/scss/settings/_responsive";
+@import "../../bower_components/lumx/core/scss/tools/_responsive";
+
+// Spacings
+$base-spacing-unit: 8px;
+
+// Sizes
+$size-xs:               24px !default;
+$size-s:                30px !default;
+$size-m:                36px !default;
+$size-l:                40px !default;
+$size-xl:               56px !default;
+
+// Widths
+$max-width: $base-spacing-unit * 40;

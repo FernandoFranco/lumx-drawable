@@ -1,0 +1,29 @@
+{
+  "name": "lumx-pp",
+  "version": "1.0.0",
+  "description": "Addons to lumx",
+  "main": "/stylesheets/lxpp.css",
+  "scripts": {
+    "start": "./node_modules/.bin/http-server -o http://127.0.0.1:8080/exemple/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FernandoFranco/lumx-pp"
+  },
+  "keywords": [
+    "lumx",
+    "addons",
+    "lumx-pp"
+  ],
+  "author": "Ferando Franco <atr.franco@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FernandoFranco/lumx-pp/issues"
+  },
+  "homepage": "https://github.com/FernandoFranco/lumx-pp#readme",
+  "devDependencies": {
+    "http-server": "^0.9.0",
+    "uglify-js": "^2.8.7"
+  }
+}

@@ -1,0 +1,16 @@
+@import "../../../bower_components/lumx/core/scss/settings/_colors";
+
+$brown-colors: (
+        common: (
+                50: (bg: $brown-50, tc: $black-1),
+                100: (bg: $brown-100, tc: $black-1),
+                200: (bg: $brown-200, tc: $black-1),
+                300: (bg: $brown-300, tc: $white),
+                400: (bg: $brown-400, tc: $white-1),
+                500: (bg: $brown-500, tc: $white-1),
+                600: (bg: $brown-600, tc: $white-1),
+                700: (bg: $brown-700, tc: $white-1),
+                800: (bg: $brown-800, tc: $white-1),
+                900: (bg: $brown-900, tc: $white-1)
+        )
+);

@@ -1,0 +1,23 @@
+{
+  "name": "lumx-pp",
+  "description": "Addons to lumx",
+  "main": "/stylesheets/lxpp.css",
+  "authors": [
+    "Ferando Franco <atr.franco@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "lumx",
+    "addons",
+    "lumx-pp"
+  ],
+  "homepage": "https://github.com/FernandoFranco/lumx-pp",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "lumx": "^1.4.4"
+  }
+}

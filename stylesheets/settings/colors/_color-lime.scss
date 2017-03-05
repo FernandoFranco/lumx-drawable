@@ -1,0 +1,22 @@
+@import "../../../bower_components/lumx/core/scss/settings/_colors";
+
+$lime-colors: (
+        common: (
+                50: (bg: $lime-50, tc: $black-1),
+                100: (bg: $lime-100, tc: $black-1),
+                200: (bg: $lime-200, tc: $black-1),
+                300: (bg: $lime-300, tc: $black-1),
+                400: (bg: $lime-400, tc: $black-1),
+                500: (bg: $lime-500, tc: $black-1),
+                600: (bg: $lime-600, tc: $black-1),
+                700: (bg: $lime-700, tc: $black-1),
+                800: (bg: $lime-800, tc: $black-1),
+                900: (bg: $lime-900, tc: $white-1)
+        ),
+        accent: (
+                100: (bg: $lime-A100, tc: $black-1),
+                200: (bg: $lime-A200, tc: $black-1),
+                400: (bg: $lime-A400, tc: $black-1),
+                700: (bg: $lime-A700, tc: $black-1)
+        )
+);

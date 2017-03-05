@@ -1,0 +1,22 @@
+@import "../../../bower_components/lumx/core/scss/settings/_colors";
+
+$orange-colors: (
+        common: (
+                50: (bg: $orange-50, tc: $black-1),
+                100: (bg: $orange-100, tc: $black-1),
+                200: (bg: $orange-200, tc: $black-1),
+                300: (bg: $orange-300, tc: $black-1),
+                400: (bg: $orange-400, tc: $black-1),
+                500: (bg: $orange-500, tc: $black-1),
+                600: (bg: $orange-600, tc: $black-1),
+                700: (bg: $orange-700, tc: $black-1),
+                800: (bg: $orange-800, tc: $white),
+                900: (bg: $orange-900, tc: $white-1)
+        ),
+        accent: (
+                100: (bg: $orange-A100, tc: $black-1),
+                200: (bg: $orange-A200, tc: $black-1),
+                400: (bg: $orange-A400, tc: $black-1),
+                700: (bg: $orange-A700, tc: $black-1)
+        )
+);

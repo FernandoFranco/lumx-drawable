@@ -1,0 +1,29 @@
+@import "../settings/colors/_colors";
+
+@mixin text-field-colored($name, $color) {
+  [lx-color="#{$name}"] {
+    &.text-field {
+      &:after {
+        background-color: $color;
+      }
+      &.text-field--is-focus {
+        &:not(.text-field--fixed-label) {
+          .text-field__label {
+            color: $color;
+          }
+        }
+        .text-field__icon {
+          color: $color;
+        }
+      }
+    }
+  }
+}
+
+@each $name, $object in $all-colors {
+  @include text-field-colored($name, getBackgroundColor($name, 500, common));
+}
+
+@each $name, $object in $mono-colors {
+  @include text-field-colored($name, getBackgroundColor($name, 0));
+}

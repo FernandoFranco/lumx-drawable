@@ -1,0 +1,22 @@
+@import "../../../bower_components/lumx/core/scss/settings/_colors";
+
+$deep-orange-colors: (
+        common: (
+                50: (bg: $deep-orange-50, tc: $black-1),
+                100: (bg: $deep-orange-100, tc: $black-1),
+                200: (bg: $deep-orange-200, tc: $black-1),
+                300: (bg: $deep-orange-300, tc: $black-1),
+                400: (bg: $deep-orange-400, tc: $black-1),
+                500: (bg: $deep-orange-500, tc: $white),
+                600: (bg: $deep-orange-600, tc: $white-1),
+                700: (bg: $deep-orange-700, tc: $white-1),
+                800: (bg: $deep-orange-800, tc: $white-1),
+                900: (bg: $deep-orange-900, tc: $white-1)
+        ),
+        accent: (
+                100: (bg: $deep-orange-A100, tc: $black-1),
+                200: (bg: $deep-orange-A200, tc: $black-1),
+                400: (bg: $deep-orange-A400, tc: $white-1),
+                700: (bg: $deep-orange-A700, tc: $white-1)
+        )
+);

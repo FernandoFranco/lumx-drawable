@@ -1,0 +1,22 @@
+@import "../../../bower_components/lumx/core/scss/settings/_colors";
+
+$purple-colors: (
+        common: (
+                50: (bg: $purple-50, tc: $black-1),
+                100: (bg: $purple-100, tc: $black-1),
+                200: (bg: $purple-200, tc: $black-1),
+                300: (bg: $purple-300, tc: $white),
+                400: (bg: $purple-400, tc: $white),
+                500: (bg: $purple-500, tc: $white-1),
+                600: (bg: $purple-600, tc: $white-1),
+                700: (bg: $purple-700, tc: $white-1),
+                800: (bg: $purple-800, tc: $white-1),
+                900: (bg: $purple-900, tc: $white-1)
+        ),
+        accent: (
+                100: (bg: $purple-A100, tc: $black-1),
+                200: (bg: $purple-A200, tc: $white),
+                400: (bg: $purple-A400, tc: $white-1),
+                700: (bg: $purple-A700, tc: $white-1)
+        )
+);

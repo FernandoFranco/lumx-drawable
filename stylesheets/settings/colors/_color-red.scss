@@ -1,0 +1,22 @@
+@import "../../../bower_components/lumx/core/scss/settings/_colors";
+
+$red-colors: (
+        common: (
+                50: (bg: $red-50, tc: $black-1),
+                100: (bg: $red-100, tc: $black-1),
+                200: (bg: $red-200, tc: $black-1),
+                300: (bg: $red-300, tc: $black-1),
+                400: (bg: $red-400, tc: $white-1),
+                500: (bg: $red-500, tc: $white-1),
+                600: (bg: $red-600, tc: $white-1),
+                700: (bg: $red-700, tc: $white-1),
+                800: (bg: $red-800, tc: $white-1),
+                900: (bg: $red-900, tc: $white-1)
+        ),
+        accent: (
+                100: (bg: $red-A100, tc: $black-1),
+                200: (bg: $red-A200, tc: $white),
+                400: (bg: $red-A400, tc: $white-1),
+                700: (bg: $red-A700, tc: $white-1)
+        )
+);
