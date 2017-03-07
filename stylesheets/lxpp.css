@@ -1,6 +1,15 @@
 .toolbar {
   z-index: 100; }
 
+.text-field[lx-error] + * {
+  margin-top: 18px; }
+.text-field[lx-error] + .text-field-error {
+  margin-top: 0; }
+.text-field.text-field--error:after {
+  background-color: #F44336 !important; }
+.text-field.text-field--valid:after {
+  background-color: #4CAF50 !important; }
+
 [lx-color="red"].text-field:after {
   background-color: #F44336; }
 [lx-color="red"].text-field.text-field--is-focus:not(.text-field--fixed-label) .text-field__label {

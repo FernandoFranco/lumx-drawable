@@ -1,5 +1,24 @@
 @import "../settings/colors/_colors";
 
+.text-field {
+  &[lx-error] + * {
+    margin-top: 18px;
+  }
+  &[lx-error] + .text-field-error {
+    margin-top: 0;
+  }
+  &.text-field--error {
+    &:after {
+      background-color: $red-500 !important;
+    }
+  }
+  &.text-field--valid {
+    &:after {
+      background-color: $green-500 !important;
+    }
+  }
+}
+
 @mixin text-field-colored($name, $color) {
   [lx-color="#{$name}"] {
     &.text-field {
