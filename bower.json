@@ -1,6 +1,7 @@
 {
   "name": "lumx-pp",
   "description": "Addons to lumx",
+  "version": "0.1.1",
   "main": "/stylesheets/lxpp.css",
   "authors": [
     "Ferando Franco <atr.franco@gmail.com>"
