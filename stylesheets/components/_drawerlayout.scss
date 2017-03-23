@@ -1,0 +1,216 @@
+@import "../settings/settings";
+@import "../mixins/deepth";
+@import "../mixins/transaction";
+
+$max-width: 320px;
+$max-width-variant: 72px;
+
+@mixin topToolbar() {
+    // See lumx/modules/toolbar/scss/_toolbar.scss
+    @include media-query(portable) {
+        top: $base-spacing-unit * 7;
+    }
+
+    // See lumx/modules/toolbar/scss/_toolbar.scss
+    @include media-query(desk) {
+        top: $base-spacing-unit * 8;
+    }
+}
+
+@mixin leftNavigation($border) {
+    left: $max-width + $border; 
+}
+
+@mixin leftNavigationVariant($border) {
+    left: $max-width-variant + $border; 
+}
+
+@mixin borderRight() {
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+@mixin fixed() {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+}
+
+.drawerlayout {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+
+    > * {
+        @include transaction(all, 128ms, ease-in-out);
+    }
+
+    #lxpp-toolbar {
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 4;
+        overflow: hidden;
+        position: absolute;
+        padding-bottom: 8px;
+        pointer-events: none;
+
+        > div {
+            pointer-events: initial;
+        }
+    }
+
+    #lxpp-navigator {
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+        display: flex;
+        width: $max-width;
+        position: absolute;
+
+        > div {
+            flex: 1;
+            max-width: $max-width;
+            background-color: white;
+        }
+    }
+
+    #lxpp-content {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+        position: absolute;
+        
+        @include topToolbar();
+    }
+
+    &[drawer-type="full-height"] {
+        #lxpp-navigator {
+            @include borderRight();
+        }
+        #lxpp-toolbar {
+            @include leftNavigation(0);
+        } 
+        #lxpp-content {
+            @include leftNavigation(1);
+        }
+    }
+
+    &[drawer-type="clipped"] {
+        #lxpp-navigator {
+            @include borderRight();
+            @include topToolbar();
+        }
+        #lxpp-content {
+            @include leftNavigation(1);
+        }
+    }
+
+    &[drawer-type="floating"] {
+        #lxpp-navigator {
+            @include topToolbar();
+        }
+        #lxpp-content {
+            @include leftNavigation(0);
+        }
+    }
+
+    &[drawer-type="floating-card"] {
+        #lxpp-navigator {
+            @include topToolbar();
+            padding: 16px;
+            > div {
+                border-radius: 2px;
+                @include deepth(2);
+            }
+        }
+        #lxpp-content {
+            @include leftNavigation(0);
+        }
+    }
+
+    &[drawer-type="persistent"] {
+        > * {
+            @include transaction(all, 280ms, ease-in-out);
+        }
+        #lxpp-navigator {
+            @include borderRight();
+            left: $max-width * -1;
+        }
+        &.drawer-active {
+            #lxpp-navigator {
+                left: 0;
+            }
+            #lxpp-toolbar {
+                @include leftNavigation(0);
+            } 
+            #lxpp-content {
+                @include leftNavigation(1);
+            }
+        }
+    }
+
+    &[drawer-type="mini-variant"] {
+        > * {
+            @include transaction(all, 280ms, ease-in-out);
+        }
+        #lxpp-navigator {
+            @include borderRight();
+            max-width: $max-width-variant;
+            > div {
+                max-width: $max-width-variant - 1;
+                @include transaction(all, 280ms, ease-in-out);
+            }
+        }
+        #lxpp-content {
+                @include leftNavigationVariant(1);
+        }
+
+        &.drawer-active {
+            #lxpp-navigator {
+                max-width: $max-width;
+                > div {
+                    max-width: $max-width;
+                }
+            }
+            #lxpp-toolbar {
+                @include leftNavigation(0);
+            } 
+            #lxpp-content {
+                @include leftNavigation(1);
+            }
+        }
+    }
+
+    &[drawer-type="temporary"] {
+        #lxpp-navigator {
+            width: 100%;
+            z-index: 24;
+            @include fixed();
+            pointer-events: none;
+            background-color: rgba(0, 0, 0, 0);
+
+            > div {
+                @include fixed();
+                left: calc(56px - 100%);
+                pointer-events: initial;
+                width: calc(100% - 56px);
+                @include transaction(all, 280ms, ease-in-out);
+            }
+        }
+        &.drawer-active {
+            #lxpp-navigator {
+                background-color: rgba(0, 0, 0, 0.33);
+                > div {
+                    left: 0;
+                    @include deepth(24);
+                }
+            }
+        }
+    }
+}

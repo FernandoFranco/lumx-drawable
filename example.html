@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lumx PP</title>
+
+    <link rel="stylesheet" href="./bower_components/lumx/dist/lumx.css">
+    <link rel="stylesheet" href="./dist/css/lxpp.min.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+</head>
+
+<body>
+
+    <lx-drawer-layout drawer-type="{{vm.selected}}">
+        <div class="bgc-white p+">
+            <lx-button class="mr+" ng-repeat="type in vm.list" lx-type="raised" ng-click="vm.selected = type;">{{type}}</lx-button>
+        </div>
+    </lx-drawer-layout>
+
+    <script src="./bower_components/jquery/dist/jquery.js"></script>
+    <script src="./bower_components/velocity/velocity.js"></script>
+    <script src="./bower_components/moment/min/moment-with-locales.js"></script>
+    <script src="./bower_components/angular/angular.js"></script>
+    <script src="./bower_components/lumx/dist/lumx.js"></script>
+
+    <script src="./dist/js/lxpp.min.js"></script>
+
+    <script type="text/javascript">
+        (function (angular) {
+            'use strict';
+            angular.module('app', ['lxpp']);
+
+            angular.module('app').run(appRun);
+
+            appRun.$inject = ['$rootScope'];
+
+            function appRun($rootScope) {
+                $rootScope.vm = {
+                    list: [
+                        'full-height',
+                        'clipped',
+                        'floating',
+                        'floating-card',
+                        'persistent',
+                        'mini-variant',
+                        'temporary'
+                    ],
+                    selected: 'full-height'
+                }
+            }
+        })(angular);
+    </script>
+</body>
+
+</html>

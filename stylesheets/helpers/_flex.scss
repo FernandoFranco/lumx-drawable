@@ -1,0 +1,78 @@
+$layouts: (row, row-reverse, column, column-reverse);
+$wraps: (nowrap, wrap, wrap-reverse);
+$contents: (start, end, center, space-between, space-around);
+$aligns: (start, end, center, baseline, stretch);
+$columns: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+
+[layout] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+@each $layout in $layouts {
+    [layout="#{$layout}"] {
+        display: flex;
+        flex-direction: $layout;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: stretch;
+    }
+}
+
+@each $wrap in $wraps {
+    [wrap="#{$wrap}"] {
+        flex-wrap: $wrap;
+    }
+}
+
+@each $content in $contents {
+    [align="#{$content}"] {
+        @if ($contents==start or $contents==end) {
+            justify-content: flex-#{$content};
+        }
+        @else {
+            justify-content: $content;
+        }
+    }
+    @each $align in $aligns {
+        [align="#{$content} #{$align}"] {
+            @if ($contents==start or $contents==end) {
+                justify-content: flex-#{$content};
+            }
+            @else {
+                justify-content: $content;
+            }
+            @if ($align==start or $align==end) {
+                align-items: flex-#{$align};
+            }
+            @else {
+                align-items: $align;
+            }
+        }
+    }
+}
+
+[item] {
+    flex: 1;
+}
+
+@each $column in $columns {
+    [item="#{$column}"] {
+        flex: $column;
+    }
+    [order="#{$column}"] {
+        order: $column;
+    }
+    [grow="#{$column}"] {
+        flex-grow: $column;
+    }
+}
+
+@each $align in $aligns {
+    [item-align="#{$align}"] {
+        align-self: $align;
+    }
+}

@@ -1,0 +1,7 @@
+@import "../mixins/deepth";
+
+@for $i from 1 through length($deepths) {
+    .z#{$i} {
+        @include deepth($i);
+    }
+}
