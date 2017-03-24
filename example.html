@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <title>Lumx PP</title>
 
+    <link rel="shortcut icon" type="image/png" href="/favicon.png">
+
     <link rel="stylesheet" href="./bower_components/lumx/dist/lumx.css">
     <link rel="stylesheet" href="./dist/css/lxpp.min.css">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
@@ -12,8 +14,12 @@
 
 <body>
 
-    <lx-drawer-layout drawer-type="{{vm.selected}}">
-        <div class="bgc-white p+">
+    <lx-drawer-layout drawer-type="{{vm.selected}}" toolbar-bgc="bgc-blue-500" toolbar-theme="dark" navigator-menu="vm.menu">
+        <div class="fs-display-2 display-block p+">
+            <img src="/favicon.png" alt="Logo" height="56px" style="float: left;" />
+            <p style="line-height: 56px;">Lumx PP</p>
+        </div>
+        <div class="p+">
             <lx-button class="mr+" ng-repeat="type in vm.list" lx-type="raised" ng-click="vm.selected = type;">{{type}}</lx-button>
         </div>
     </lx-drawer-layout>
@@ -46,7 +52,13 @@
                         'mini-variant',
                         'temporary'
                     ],
-                    selected: 'full-height'
+                    selected: 'full-height',
+                    menu: [
+                        {label: 'Label'},
+                        {label: 'Label with icon', icon: ''},
+                        {label: 'Label with colored icon', icon: '', iconColor: ''},
+                        {label: 'Label with colored icon and ', icon: '', iconColor: ''}
+                    ]
                 }
             }
         })(angular);

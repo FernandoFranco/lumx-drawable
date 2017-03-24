@@ -15,20 +15,36 @@
             restrict: 'E',
             transclude: true,
             scope: {
-                type: '@'
+                drawerType: '@',
+                toolbarBgc: '@',
+                toolbarTheme: '@',
+                navigatorMenu: '='
             },
-            templateUrl: './drawerlayout.html'
+            templateUrl: 'drawerlayout.html'
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        function _link($scope, $element, $attr, $ctrl, $transclude) {
-            $scope.$watch($scope.type, _onChangeType);
+        function _link($scope, $element, $attrs, $ctrl, $transclude) {
+            $attrs.$observe('toolbarTheme', _onChangeToolbarTheme);
+            $attrs.$observe('navigatorMenu', _onChangeNavigatorMenu);
+            $scope.$watch($scope.navigatorMenu, _onChangeNavigatorMenu);
 
             ////////////////////////////////////////////////////////////////////////////////////////////////
 
-            function _onChangeType(newType, oldType) {
-                
+            function _onChangeToolbarTheme(newTheme) {
+                $scope.toolbarThemeObj = {
+                    color: newTheme === 'dark' ? 'white' : 'black',
+                    textColor: newTheme === 'dark' ? 'tc-white' : 'tc-black',
+                };
+            }
+
+            function _onChangeNavigatorMenu(newMenu, a, b, c) {
+                if (newMenu instanceof Array) {
+                    $scope.navigatorMenu = {
+                        '': newMenu
+                    };
+                }
             }
         }
     }

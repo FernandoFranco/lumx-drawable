@@ -77,6 +77,10 @@ $max-width-variant: 72px;
             max-width: $max-width;
             background-color: white;
         }
+
+        #navigator-toolbar {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        }
     }
 
     #lxpp-content {
@@ -92,9 +96,17 @@ $max-width-variant: 72px;
     &[drawer-type="full-height"] {
         #lxpp-navigator {
             @include borderRight();
+            #navigator-toolbar {
+                .toogle-button {
+                    display: none;
+                }
+            }
         }
         #lxpp-toolbar {
             @include leftNavigation(0);
+            .toogle-button {
+                display: none;
+            }
         } 
         #lxpp-content {
             @include leftNavigation(1);
@@ -105,7 +117,15 @@ $max-width-variant: 72px;
         #lxpp-navigator {
             @include borderRight();
             @include topToolbar();
+            #navigator-toolbar {
+                display: none;
+            }
         }
+        #lxpp-toolbar {
+            .toogle-button {
+                display: none;
+            }
+        } 
         #lxpp-content {
             @include leftNavigation(1);
         }
@@ -114,7 +134,15 @@ $max-width-variant: 72px;
     &[drawer-type="floating"] {
         #lxpp-navigator {
             @include topToolbar();
+            #navigator-toolbar {
+                display: none;
+            }
         }
+        #lxpp-toolbar {
+            .toogle-button {
+                display: none;
+            }
+        } 
         #lxpp-content {
             @include leftNavigation(0);
         }
@@ -128,7 +156,15 @@ $max-width-variant: 72px;
                 border-radius: 2px;
                 @include deepth(2);
             }
+            #navigator-toolbar {
+                display: none;
+            }
         }
+        #lxpp-toolbar {
+            .toogle-button {
+                display: none;
+            }
+        } 
         #lxpp-content {
             @include leftNavigation(0);
         }
@@ -142,12 +178,22 @@ $max-width-variant: 72px;
             @include borderRight();
             left: $max-width * -1;
         }
+        #lxpp-toolbar {
+            .toogle-button {
+                overflow: hidden;
+                @include transaction(all, 280ms, ease-in-out);
+            }
+        }
         &.drawer-active {
             #lxpp-navigator {
                 left: 0;
             }
             #lxpp-toolbar {
                 @include leftNavigation(0);
+                .toogle-button {
+                    width: 0;
+                    margin-right: 0 !important;
+                }
             } 
             #lxpp-content {
                 @include leftNavigation(1);
@@ -167,6 +213,12 @@ $max-width-variant: 72px;
                 @include transaction(all, 280ms, ease-in-out);
             }
         }
+        #lxpp-toolbar {
+            .toogle-button {
+                overflow: hidden;
+                @include transaction(all, 280ms, ease-in-out);
+            }
+        }
         #lxpp-content {
                 @include leftNavigationVariant(1);
         }
@@ -180,7 +232,11 @@ $max-width-variant: 72px;
             }
             #lxpp-toolbar {
                 @include leftNavigation(0);
-            } 
+                .toogle-button {
+                    width: 0;
+                    margin-right: 0 !important;
+                }
+            }
             #lxpp-content {
                 @include leftNavigation(1);
             }
@@ -202,9 +258,15 @@ $max-width-variant: 72px;
                 width: calc(100% - 56px);
                 @include transaction(all, 280ms, ease-in-out);
             }
+            #navigator-toolbar {
+                .toogle-button {
+                    display: none;
+                }
+            }
         }
         &.drawer-active {
             #lxpp-navigator {
+                pointer-events: initial;
                 background-color: rgba(0, 0, 0, 0.33);
                 > div {
                     left: 0;
