@@ -11,15 +11,6 @@
         }
     }
 
-    &:hover {
-        .scroll-y {
-            width: 8px !important;
-        }
-        .scroll-x {
-            height: 8px !important;
-        }
-    }
-
     .scroll-element.scroll-scrolly_visible {
         z-index: 9999;
         position: absolute;
@@ -27,17 +18,15 @@
         &.scroll-y {
             top: 0;
             right: 0;
-            width: 0;
+            width: 8px;
             height: 100%;
-            @include transaction(all, 50ms, ease-in-out);
         }
 
         &.scroll-x {
             left: 0;
             bottom: 0;
-            height: 0;
+            height: 8px;
             width: 100%;
-            @include transaction(all, 50ms, ease-in-out);
         }
 
         .scroll-element_outer {
@@ -58,8 +47,15 @@
             .scroll-bar {
                 width: 100%;
                 position: absolute;
-                background-color: rgba(0, 0, 0, 0.22);
+                background-color: transparent;
+                @include transaction(all, 120ms, ease-in-out);
             }
+        }
+    }
+
+    &:hover {
+        .scroll-bar {
+            background-color: rgba(0, 0, 0, 0.22) !important;
         }
     }
 }

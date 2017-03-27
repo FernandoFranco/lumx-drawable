@@ -280,14 +280,6 @@
   width: 0;
 }
 
-.scroll-wrapper:hover .scroll-y {
-  width: 8px !important;
-}
-
-.scroll-wrapper:hover .scroll-x {
-  height: 8px !important;
-}
-
 .scroll-wrapper .scroll-element.scroll-scrolly_visible {
   z-index: 9999;
   position: absolute;
@@ -296,25 +288,15 @@
 .scroll-wrapper .scroll-element.scroll-scrolly_visible.scroll-y {
   top: 0;
   right: 0;
-  width: 0;
+  width: 8px;
   height: 100%;
-  -webkit-transition: all 50ms ease-in-out;
-  -moz-transition: all 50ms ease-in-out;
-  -ms-transition: all 50ms ease-in-out;
-  -o-transition: all 50ms ease-in-out;
-  transition: all 50ms ease-in-out;
 }
 
 .scroll-wrapper .scroll-element.scroll-scrolly_visible.scroll-x {
   left: 0;
   bottom: 0;
-  height: 0;
+  height: 8px;
   width: 100%;
-  -webkit-transition: all 50ms ease-in-out;
-  -moz-transition: all 50ms ease-in-out;
-  -ms-transition: all 50ms ease-in-out;
-  -o-transition: all 50ms ease-in-out;
-  transition: all 50ms ease-in-out;
 }
 
 .scroll-wrapper .scroll-element.scroll-scrolly_visible .scroll-element_outer {
@@ -336,7 +318,16 @@
 .scroll-wrapper .scroll-element.scroll-scrolly_visible .scroll-element_outer .scroll-bar {
   width: 100%;
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.22);
+  background-color: transparent;
+  -webkit-transition: all 120ms ease-in-out;
+  -moz-transition: all 120ms ease-in-out;
+  -ms-transition: all 120ms ease-in-out;
+  -o-transition: all 120ms ease-in-out;
+  transition: all 120ms ease-in-out;
+}
+
+.scroll-wrapper:hover .scroll-bar {
+  background-color: rgba(0, 0, 0, 0.22) !important;
 }
 
 .drawerlayout {
