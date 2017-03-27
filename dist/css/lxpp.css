@@ -270,6 +270,75 @@
   color: #FFFFFF;
 }
 
+.scroll-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.scroll-wrapper [lx-scroll]::-webkit-scrollbar {
+  height: 0;
+  width: 0;
+}
+
+.scroll-wrapper:hover .scroll-y {
+  width: 8px !important;
+}
+
+.scroll-wrapper:hover .scroll-x {
+  height: 8px !important;
+}
+
+.scroll-wrapper .scroll-element.scroll-scrolly_visible {
+  z-index: 9999;
+  position: absolute;
+}
+
+.scroll-wrapper .scroll-element.scroll-scrolly_visible.scroll-y {
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 100%;
+  -webkit-transition: all 50ms ease-in-out;
+  -moz-transition: all 50ms ease-in-out;
+  -ms-transition: all 50ms ease-in-out;
+  -o-transition: all 50ms ease-in-out;
+  transition: all 50ms ease-in-out;
+}
+
+.scroll-wrapper .scroll-element.scroll-scrolly_visible.scroll-x {
+  left: 0;
+  bottom: 0;
+  height: 0;
+  width: 100%;
+  -webkit-transition: all 50ms ease-in-out;
+  -moz-transition: all 50ms ease-in-out;
+  -ms-transition: all 50ms ease-in-out;
+  -o-transition: all 50ms ease-in-out;
+  transition: all 50ms ease-in-out;
+}
+
+.scroll-wrapper .scroll-element.scroll-scrolly_visible .scroll-element_outer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.scroll-wrapper .scroll-element.scroll-scrolly_visible .scroll-element_outer .scroll-element_size {
+  width: 100%;
+  height: 100%;
+}
+
+.scroll-wrapper .scroll-element.scroll-scrolly_visible .scroll-element_outer .scroll-element_track {
+  width: 100%;
+  height: 100%;
+}
+
+.scroll-wrapper .scroll-element.scroll-scrolly_visible .scroll-element_outer .scroll-bar {
+  width: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.22);
+}
+
 .drawerlayout {
   top: 0;
   left: 0;
@@ -414,6 +483,7 @@
 }
 
 .drawerlayout[drawer-type="floating-card"] #lxpp-navigator {
+  width: 352px;
   padding: 16px;
 }
 
@@ -443,7 +513,7 @@
 }
 
 .drawerlayout[drawer-type="floating-card"] #lxpp-content {
-  left: 320px;
+  left: 352px;
 }
 
 .drawerlayout[drawer-type="persistent"] > * {
@@ -581,6 +651,29 @@
 .drawerlayout[drawer-type="temporary"].drawer-active #lxpp-navigator > div {
   left: 0;
   box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
+}
+
+.drawernavigator .list-subheader {
+  font-weight: bold;
+}
+
+.drawernavigator .list-subheader:empty {
+  display: none;
+}
+
+.drawernavigator .list-row .list-row__primary {
+  min-width: 56px;
+}
+
+.drawernavigator .list-row .list-row__content {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.drawernavigator + .drawernavigator {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 [layout] {
@@ -1054,6 +1147,54 @@
 
 .z24 {
   box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
+}
+
+[overflow="auto"] {
+  overflow: auto;
+}
+
+[overflow-y="auto"] {
+  overflow-y: auto;
+}
+
+[overflow-x="auto"] {
+  overflow-x: auto;
+}
+
+[overflow="hidden"] {
+  overflow: hidden;
+}
+
+[overflow-y="hidden"] {
+  overflow-y: hidden;
+}
+
+[overflow-x="hidden"] {
+  overflow-x: hidden;
+}
+
+[overflow="scroll"] {
+  overflow: scroll;
+}
+
+[overflow-y="scroll"] {
+  overflow-y: scroll;
+}
+
+[overflow-x="scroll"] {
+  overflow-x: scroll;
+}
+
+[overflow="visible"] {
+  overflow: visible;
+}
+
+[overflow-y="visible"] {
+  overflow-y: visible;
+}
+
+[overflow-x="visible"] {
+  overflow-x: visible;
 }
 
 @media screen and (max-width: 480px) {

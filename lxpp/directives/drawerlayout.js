@@ -18,7 +18,7 @@
                 drawerType: '@',
                 toolbarBgc: '@',
                 toolbarTheme: '@',
-                navigatorMenu: '='
+                navigatorMenus: '='
             },
             templateUrl: 'drawerlayout.html'
         }
@@ -27,8 +27,6 @@
 
         function _link($scope, $element, $attrs, $ctrl, $transclude) {
             $attrs.$observe('toolbarTheme', _onChangeToolbarTheme);
-            $attrs.$observe('navigatorMenu', _onChangeNavigatorMenu);
-            $scope.$watch($scope.navigatorMenu, _onChangeNavigatorMenu);
 
             ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -37,14 +35,6 @@
                     color: newTheme === 'dark' ? 'white' : 'black',
                     textColor: newTheme === 'dark' ? 'tc-white' : 'tc-black',
                 };
-            }
-
-            function _onChangeNavigatorMenu(newMenu, a, b, c) {
-                if (newMenu instanceof Array) {
-                    $scope.navigatorMenu = {
-                        '': newMenu
-                    };
-                }
             }
         }
     }

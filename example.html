@@ -14,7 +14,7 @@
 
 <body>
 
-    <lx-drawer-layout drawer-type="{{vm.selected}}" toolbar-bgc="bgc-blue-500" toolbar-theme="dark" navigator-menu="vm.menu">
+    <lx-drawer-layout drawer-type="{{vm.selected}}" toolbar-bgc="bgc-blue-500" toolbar-theme="dark" navigator-menus="vm.menu">
         <div class="fs-display-2 display-block p+">
             <img src="/favicon.png" alt="Logo" height="56px" style="float: left;" />
             <p style="line-height: 56px;">Lumx PP</p>
@@ -25,6 +25,8 @@
     </lx-drawer-layout>
 
     <script src="./bower_components/jquery/dist/jquery.js"></script>
+    <script src="./bower_components/jquery.scrollbar/jquery.scrollbar.js"></script>
+
     <script src="./bower_components/velocity/velocity.js"></script>
     <script src="./bower_components/moment/min/moment-with-locales.js"></script>
     <script src="./bower_components/angular/angular.js"></script>
@@ -53,12 +55,27 @@
                         'temporary'
                     ],
                     selected: 'full-height',
-                    menu: [
-                        {label: 'Label'},
-                        {label: 'Label with icon', icon: ''},
-                        {label: 'Label with colored icon', icon: '', iconColor: ''},
-                        {label: 'Label with colored icon and ', icon: '', iconColor: ''}
-                    ]
+                    menu: {
+                        '': [
+                            {label: 'Without Header'}
+                        ],
+                        'Label': [
+                            {label: 'Label'}
+                        ],
+                        'Icon': [
+                            {label: 'Icon', icon: 'language-html5'},
+                            {label: 'Colored Icon', icon: 'language-html5', iconColor: 'deep-orange'}
+                        ],
+                        'Info': [
+                            {label: 'Info', info: 'language-css3'},
+                            {label: 'Colored Info', info: 'language-css3', infoColor: 'blue'}
+                        ],
+                        'Icon & Info': [
+                            {label: 'Icon & Info', icon: 'language-html5', info: 'language-css3'},
+                            {label: 'Colored Icon & Info', icon: 'language-html5', iconColor: 'deep-orange', info: 'language-css3'},
+                            {label: 'Colored Icon & Colored Info', icon: 'language-html5', iconColor: 'deep-orange', info: 'language-css3', infoColor: 'blue'}
+                        ]
+                    }
                 }
             }
         })(angular);

@@ -34,17 +34,15 @@
                 drawerType: '@',
                 toolbarBgc: '@',
                 toolbarTheme: '@',
-                navigatorMenu: '='
+                navigatorMenus: '='
             },
-            template:'<div class="drawerlayout" ng-class="{\'drawer-active\': active}"><div id="lxpp-toolbar"><div class="toolbar z4" ng-class="toolbarBgc"><div class="toolbar__left"><lx-button class="toogle-button mr" lx-size="l" lx-color="{{toolbarThemeObj.color}}" lx-type="icon" ng-click="active = !active;"><i class="mdi mdi-menu"></i></lx-button></div><span class="ml toolbar__label fs-title {{toolbarThemeObj.textColor}}">Lorem Ipsum</span></div></div><div id="lxpp-navigator" ng-click="active = (drawerType === \'temporary\') ? !active : active;"><div><div id="navigator-toolbar" class="toolbar bgc-white"><span class="toolbar__label fs-title tc-white"></span><div class="toolbar__right"><lx-button class="toogle-button" lx-size="l" lx-color="grey" lx-type="icon" ng-click="active = !active;"><i class="mdi mdi-chevron-left"></i></lx-button></div></div>{{navigatorMenu}}<ul class="list mt mb" ng-repeat="(header, menu) in navigatorMenu"><li class="list-subheader list-subheader--is-pushed" ng-bind="header"></li><li ng-repeat="item in menu" class="list-row list-row--has-separator list-row--is-clickable" lx-ripple="black"><div class="list-row__primary"><lx-icon lx-id="send" lx-size="s" lx-color="grey" lx-type="flat"></lx-icon></div><div class="list-row__content"><span ng-bind="item.label"></span></div><div class="list-row__secondary"><lx-icon lx-id="information" lx-size="xs" lx-color="grey" lx-type="flat"></lx-icon></div></li></ul></div></div><div id="lxpp-content" ng-transclude></div></div>'
+            template:'<div class="drawerlayout" ng-class="{\'drawer-active\': active}"><div id="lxpp-toolbar"><div class="toolbar z4" ng-class="toolbarBgc"><div class="toolbar__left"><lx-button class="toogle-button mr" lx-size="l" lx-color="{{toolbarThemeObj.color}}" lx-type="icon" ng-click="active = !active;"><i class="mdi mdi-menu"></i></lx-button></div><span class="ml toolbar__label fs-title {{toolbarThemeObj.textColor}}">Lorem Ipsum</span></div></div><div id="lxpp-navigator" ng-click="active = (drawerType === \'temporary\') ? !active : active;"><div overflow="auto" lx-scroll><div id="navigator-toolbar" class="toolbar bgc-white"><span class="toolbar__label fs-title tc-white"></span><div class="toolbar__right"><lx-button class="toogle-button" lx-size="l" lx-color="grey" lx-type="icon" ng-click="active = !active;"><i class="mdi mdi-chevron-left"></i></lx-button></div></div><lx-drawer-navigator menus="navigatorMenus"></lx-drawer-navigator></div></div><div id="lxpp-content"><div overflow="scroll" lx-scroll ng-transclude></div></div></div>'
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         function _link($scope, $element, $attrs, $ctrl, $transclude) {
             $attrs.$observe('toolbarTheme', _onChangeToolbarTheme);
-            $attrs.$observe('navigatorMenu', _onChangeNavigatorMenu);
-            $scope.$watch($scope.navigatorMenu, _onChangeNavigatorMenu);
 
             ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -54,14 +52,67 @@
                     textColor: newTheme === 'dark' ? 'tc-white' : 'tc-black',
                 };
             }
+        }
+    }
+})(angular);
+/**
+ * Fernando Franco
+ * Directive DrawerNavigator
+ */
+(function (angular) {
+    'use strict';
+    angular.module('lxpp').directive('lxDrawerNavigator', lxDrawerNavigator);
+
+    lxDrawerNavigator.$inject = [];
+
+    function lxDrawerNavigator() {
+        return {
+            link: _link,
+            replace: true,
+            restrict: 'E',
+            scope: {
+                menus: '='
+            },
+            template:'<div class="drawernavigator mt mb"><ul class="list" ng-repeat="(header, menu) in menus"><li class="list-subheader" ng-bind="header"></li><li ng-repeat="item in menu" class="list-row list-row--is-clickable" lx-ripple="black"><div class="list-row__primary" ng-if="item.icon"><lx-icon lx-id="{{item.icon}}" lx-size="s" lx-color="{{item.iconColor || \'grey\'}}" lx-type="flat"></lx-icon></div><div class="list-row__content">{{item.label}}</div><div class="list-row__secondary" ng-if="item.info"><lx-icon lx-id="{{item.info}}" lx-size="xs" lx-color="{{item.infoColor || \'grey\'}}" lx-type="flat"></lx-icon></div></li></ul></div>'
+        };
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function _link($scope, $element, $attrs, $ctrl, $transclude) {
+            $scope.$watch('menus', _onChangeNavigatorMenu);
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////
 
             function _onChangeNavigatorMenu(newMenu, a, b, c) {
                 if (newMenu instanceof Array) {
-                    $scope.navigatorMenu = {
+                    $scope.menus = {
                         '': newMenu
                     };
                 }
             }
+        }
+    }
+})(angular);
+/**
+ * Fernando Franco
+ * Directive Scrollbar
+ */
+(function (angular) {
+    'use strict';
+    angular.module('lxpp').directive('lxScroll', lxScroll);
+
+    lxScroll.$inject = [];
+
+    function lxScroll() {
+        return {
+            link: _link,
+            restrict: 'A'
+        };
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function _link($scope, $element, $attrs, $ctrl, $transclude) {
+            $element.scrollbar();
         }
     }
 })(angular);

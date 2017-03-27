@@ -151,6 +151,7 @@ $max-width-variant: 72px;
     &[drawer-type="floating-card"] {
         #lxpp-navigator {
             @include topToolbar();
+            width: 352px;
             padding: 16px;
             > div {
                 border-radius: 2px;
@@ -166,7 +167,7 @@ $max-width-variant: 72px;
             }
         } 
         #lxpp-content {
-            @include leftNavigation(0);
+            @include leftNavigation(32);
         }
     }
 

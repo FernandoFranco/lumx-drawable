@@ -10,7 +10,7 @@
         </div>
     </div>
     <div id="lxpp-navigator" ng-click="active = (drawerType === 'temporary') ? !active : active;">
-        <div>
+        <div overflow="auto" lx-scroll>
             <div id="navigator-toolbar" class="toolbar bgc-white">
                 <span class="toolbar__label fs-title tc-white"></span>
                 <div class="toolbar__right">
@@ -19,22 +19,10 @@
                     </lx-button>
                 </div>
             </div>
-            {{navigatorMenu}}
-            <ul class="list mt mb" ng-repeat="(header, menu) in navigatorMenu">
-                <li class="list-subheader list-subheader--is-pushed" ng-bind="header"></li>
-                <li ng-repeat="item in menu" class="list-row list-row--has-separator list-row--is-clickable" lx-ripple="black">
-                    <div class="list-row__primary">
-                        <lx-icon lx-id="send" lx-size="s" lx-color="grey" lx-type="flat"></lx-icon>
-                    </div>
-                    <div class="list-row__content">
-                        <span ng-bind="item.label"></span>
-                    </div>
-                    <div class="list-row__secondary">
-                        <lx-icon lx-id="information" lx-size="xs" lx-color="grey" lx-type="flat"></lx-icon>
-                    </div>
-                </li>
-            </ul>
+            <lx-drawer-navigator menus="navigatorMenus"></lx-drawer-navigator>
         </div>
     </div>
-    <div id="lxpp-content" ng-transclude></div>
+    <div id="lxpp-content">
+        <div overflow="scroll" lx-scroll ng-transclude></div>
+    </div>
 </div>
