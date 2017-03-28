@@ -6,9 +6,9 @@
     'use strict';
     angular.module('lxpp').directive('lxDrawerNavigator', lxDrawerNavigator);
 
-    lxDrawerNavigator.$inject = [];
+    lxDrawerNavigator.$inject = ['$rootScope'];
 
-    function lxDrawerNavigator() {
+    function lxDrawerNavigator($rootScope) {
         return {
             link: _link,
             replace: true,
@@ -22,15 +22,38 @@
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         function _link($scope, $element, $attrs, $ctrl, $transclude) {
-            $scope.$watch('menus', _onChangeNavigatorMenu);
+            var tempActive = false;
+            var orinalMenu = [];
+
+            $scope.navigateHandler = _navigateHandler;
+
+            $scope.$watch('menus', _onChangeMenus);
+            $rootScope.$on('drawernavigator:temp', _onTempMenu);
+            $rootScope.$on('drawernavigator:original', _onOriginalMenu);
 
             ////////////////////////////////////////////////////////////////////////////////////////////////
 
-            function _onChangeNavigatorMenu(newMenu, a, b, c) {
-                if (newMenu instanceof Array) {
-                    $scope.menus = {
-                        '': newMenu
-                    };
+            function _onChangeMenus(newMenus) {
+                if (!tempActive) {
+                    orinalMenu = newMenus;
+                }
+            }
+
+            function _onTempMenu($event, tempMenu) {
+                tempActive = true;
+                $scope.menus = tempMenu;
+            }
+
+            function _onOriginalMenu() {
+                tempActive = false;
+                $scope.menus = orinalMenu;
+            }
+
+            function _navigateHandler(menuItem) {
+                if (menuItem.handler) {
+                    if (menuItem.handler()) {
+                        $rootScope.$broadcast('drawer:active', false);
+                    }
                 }
             }
         }

@@ -1,11 +1,14 @@
 <div class="drawernavigator mt mb">
-    <ul class="list" ng-repeat="(header, menu) in menus">
-        <li class="list-subheader" ng-bind="header"></li>
-        <li ng-repeat="item in menu" class="list-row list-row--is-clickable" lx-ripple="black">
-            <div class="list-row__primary" ng-if="item.icon">
-                <lx-icon lx-id="{{item.icon}}" lx-size="s" lx-color="{{item.iconColor || 'grey'}}" lx-type="flat"></lx-icon>
+    <ul class="list" ng-repeat="group in menus">
+        <li class="list-subheader" ng-bind="group.header"></li>
+        <li ng-repeat="item in group.items" class="list-row list-row--is-clickable" lx-ripple="black" ng-click="navigateHandler(item);">
+            <div class="list-row__primary" ng-if="item.icon || item.avatar">
+                <img ng-src="{{item.avatar}}" ng-if="item.avatar" width="40" height="40" class="img-round"/>
+                <lx-icon ng-if="!item.avatar" lx-id="{{item.icon}}" lx-size="s" lx-color="{{item.iconColor || 'grey'}}" lx-type="flat"></lx-icon>
             </div>
-            <div class="list-row__content">{{item.label}}</div>
+            <div class="list-row__content">
+                <span>{{item.label}}</span>
+            </div>
             <div class="list-row__secondary" ng-if="item.info">
                 <lx-icon lx-id="{{item.info}}" lx-size="xs" lx-color="{{item.infoColor || 'grey'}}" lx-type="flat"></lx-icon>
             </div>

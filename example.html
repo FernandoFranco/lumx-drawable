@@ -14,7 +14,7 @@
 
 <body>
 
-    <lx-drawer-layout drawer-type="{{vm.selected}}" toolbar-bgc="bgc-blue-500" toolbar-theme="dark" navigator-menus="vm.menu">
+    <lx-drawer-layout drawer-type="{{vm.selected}}" toolbar-bgc="bgc-blue-500" toolbar-theme="dark" navigator-menus="vm.menu" config-menus="vm.config" drawer-users="vm.users" drawer-background="/background.png">
         <div class="fs-display-2 display-block p+">
             <img src="/favicon.png" alt="Logo" height="56px" style="float: left;" />
             <p style="line-height: 56px;">Lumx PP</p>
@@ -41,10 +41,16 @@
 
             angular.module('app').run(appRun);
 
-            appRun.$inject = ['$rootScope'];
+            appRun.$inject = ['$rootScope', 'LxNotificationService'];
 
-            function appRun($rootScope) {
+            function appRun($rootScope, LxNotificationService) {
+                var menuGroup
+
+                $rootScope.$broadcast('draweruser:changeuser', _onChangeUser);
+
                 $rootScope.vm = {
+                    selected: 'full-height',
+
                     list: [
                         'full-height',
                         'clipped',
@@ -54,27 +60,68 @@
                         'mini-variant',
                         'temporary'
                     ],
-                    selected: 'full-height',
-                    menu: {
-                        '': [
-                            {label: 'Without Header'}
-                        ],
-                        'Label': [
-                            {label: 'Label'}
-                        ],
-                        'Icon': [
-                            {label: 'Icon', icon: 'language-html5'},
-                            {label: 'Colored Icon', icon: 'language-html5', iconColor: 'deep-orange'}
-                        ],
-                        'Info': [
-                            {label: 'Info', info: 'language-css3'},
-                            {label: 'Colored Info', info: 'language-css3', infoColor: 'blue'}
-                        ],
-                        'Icon & Info': [
-                            {label: 'Icon & Info', icon: 'language-html5', info: 'language-css3'},
-                            {label: 'Colored Icon & Info', icon: 'language-html5', iconColor: 'deep-orange', info: 'language-css3'},
-                            {label: 'Colored Icon & Colored Info', icon: 'language-html5', iconColor: 'deep-orange', info: 'language-css3', infoColor: 'blue'}
-                        ]
+
+                    users: [
+                        {name: 'Fernando Franco', image: '/photo.jpg', active: true},
+                        {name: 'Lumx PP', image: '/favicon.png'}
+                    ],
+
+                    menu: [
+                        // Grupo 1
+                        {
+                            items: [
+                                {label: 'Without Header', handler: _notification('G1-I1')}
+                            ]
+                        },
+                        // Grupo 2
+                        {
+                            header: 'Label',
+                            items: [
+                                {label: 'Label', handler: _notification('G2-I1')}
+                            ]
+                        },
+                        // Grupo 3
+                        {
+                            header: 'Icon',
+                            items: [
+                                {label: 'Icon', icon: 'language-html5', handler: _notification('G3-I1')},
+                                {label: 'Colored Icon', icon: 'language-html5', iconColor: 'deep-orange', handler: _notification('G3-I2')}
+                            ]
+                        },
+                        // Grupo 4
+                        {
+                            header: 'Info',
+                            items: [
+                                {label: 'Info', info: 'language-css3', handler: _notification('G4-I1')},
+                                {label: 'Colored Info', info: 'language-css3', infoColor: 'blue', handler: _notification('G4-I2')}
+                            ]
+                        },
+                        // Grupo 5
+                        {
+                            header: 'Icon & Info',
+                            items: [
+                                {label: 'Icon & Info', icon: 'language-html5', info: 'language-css3', handler: _notification('G5-I1')},
+                                {label: 'Colored Icon & Info', icon: 'language-html5', iconColor: 'deep-orange', info: 'language-css3', handler: _notification('G5-I2')},
+                                {label: 'Colored Icon & Colored Info', icon: 'language-html5', iconColor: 'deep-orange', info: 'language-css3', infoColor: 'blue', handler: _notification('G5-I3')}
+                            ]
+                        }
+                    ],
+
+                    config: [
+                        {label: 'Settings', icon: 'settings', handler: _notification('Settings')}
+                    ]
+                }
+
+                ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                function _onChangeUser(userSelected) {
+                    LxNotificationService.notify(userSelected.name + ' selected');
+                }
+                
+                function _notification(groupItem) {
+                    return function() {
+                        LxNotificationService.notify(groupItem + ' clicked');
+                        return true; // hideNavigation
                     }
                 }
             }

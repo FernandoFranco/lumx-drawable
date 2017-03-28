@@ -3,7 +3,7 @@
 @import "../mixins/transaction";
 
 $max-width: 320px;
-$max-width-variant: 72px;
+$max-width-variant: 62px;
 
 @mixin topToolbar() {
     // See lumx/modules/toolbar/scss/_toolbar.scss
@@ -69,17 +69,25 @@ $max-width-variant: 72px;
         bottom: 0;
         z-index: 1;
         display: flex;
-        width: $max-width;
+        width: $max-width + 1;
         position: absolute;
 
         > div {
             flex: 1;
+            overflow: hidden;
             max-width: $max-width;
             background-color: white;
         }
 
-        #navigator-toolbar {
+        #drawer-user {
             border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        }
+
+        .config-menus {
+            box-shadow: 0 -1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+            > div {
+                margin: 0 !important;
+            }
         }
     }
 
@@ -96,7 +104,7 @@ $max-width-variant: 72px;
     &[drawer-type="full-height"] {
         #lxpp-navigator {
             @include borderRight();
-            #navigator-toolbar {
+            #drawer-user {
                 .toogle-button {
                     display: none;
                 }
@@ -117,7 +125,7 @@ $max-width-variant: 72px;
         #lxpp-navigator {
             @include borderRight();
             @include topToolbar();
-            #navigator-toolbar {
+            #drawer-user {
                 display: none;
             }
         }
@@ -134,7 +142,7 @@ $max-width-variant: 72px;
     &[drawer-type="floating"] {
         #lxpp-navigator {
             @include topToolbar();
-            #navigator-toolbar {
+            #drawer-user {
                 display: none;
             }
         }
@@ -157,7 +165,7 @@ $max-width-variant: 72px;
                 border-radius: 2px;
                 @include deepth(2);
             }
-            #navigator-toolbar {
+            #drawer-user {
                 display: none;
             }
         }
@@ -209,7 +217,9 @@ $max-width-variant: 72px;
         #lxpp-navigator {
             @include borderRight();
             max-width: $max-width-variant;
-            > div {
+            > div,
+            #drawer-user {
+                overflow: hidden;
                 max-width: $max-width-variant - 1;
                 @include transaction(all, 280ms, ease-in-out);
             }
@@ -226,8 +236,9 @@ $max-width-variant: 72px;
 
         &.drawer-active {
             #lxpp-navigator {
-                max-width: $max-width;
-                > div {
+                max-width: $max-width + 1;
+                > div,
+                #drawer-user {
                     max-width: $max-width;
                 }
             }
@@ -254,12 +265,16 @@ $max-width-variant: 72px;
 
             > div {
                 @include fixed();
+                max-width: 320px;
                 left: calc(56px - 100%);
                 pointer-events: initial;
-                width: calc(100% - 56px);
                 @include transaction(all, 280ms, ease-in-out);
+
+                @media (max-width: 320px + 56px) {
+                    max-width: calc(100% - 56px);
+                }
             }
-            #navigator-toolbar {
+            #drawer-user {
                 .toogle-button {
                     display: none;
                 }

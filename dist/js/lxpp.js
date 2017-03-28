@@ -33,24 +33,51 @@
             scope: {
                 drawerType: '@',
                 toolbarBgc: '@',
+                configMenus: '=',
+                drawerUsers: '=',
                 toolbarTheme: '@',
-                navigatorMenus: '='
+                navigatorMenus: '=',
+                drawerBackground: '@'
             },
-            template:'<div class="drawerlayout" ng-class="{\'drawer-active\': active}"><div id="lxpp-toolbar"><div class="toolbar z4" ng-class="toolbarBgc"><div class="toolbar__left"><lx-button class="toogle-button mr" lx-size="l" lx-color="{{toolbarThemeObj.color}}" lx-type="icon" ng-click="active = !active;"><i class="mdi mdi-menu"></i></lx-button></div><span class="ml toolbar__label fs-title {{toolbarThemeObj.textColor}}">Lorem Ipsum</span></div></div><div id="lxpp-navigator" ng-click="active = (drawerType === \'temporary\') ? !active : active;"><div overflow="auto" lx-scroll><div id="navigator-toolbar" class="toolbar bgc-white"><span class="toolbar__label fs-title tc-white"></span><div class="toolbar__right"><lx-button class="toogle-button" lx-size="l" lx-color="grey" lx-type="icon" ng-click="active = !active;"><i class="mdi mdi-chevron-left"></i></lx-button></div></div><lx-drawer-navigator menus="navigatorMenus"></lx-drawer-navigator></div></div><div id="lxpp-content"><div overflow="scroll" lx-scroll ng-transclude></div></div></div>'
+            template:'<div class="drawerlayout" ng-class="{\'drawer-active\': active}"><div id="lxpp-toolbar"><div class="toolbar z4" ng-class="toolbarBgc"><div class="toolbar__left"><lx-button class="toogle-button mr" lx-size="l" lx-color="{{toolbarThemeObj.color}}" lx-type="icon" ng-click="setActive();"><i class="mdi mdi-menu"></i></lx-button></div><span class="ml toolbar__label fs-title {{toolbarThemeObj.textColor}}">Lorem Ipsum</span></div></div><div id="lxpp-navigator" ng-click="active = (drawerType === \'temporary\') ? !active : active;"><div ng-click="stopPropagation($event);" layout="column" item><div layout="column" item><div overflow="auto" lx-scroll><lx-drawer-user users="drawerUsers" background="{{drawerBackground}}" min-drawer="drawerType !== \'temporary\'"></lx-drawer-user><lx-drawer-navigator menus="navigatorMenus"></lx-drawer-navigator></div></div><div class="config-menus" ng-if="configMenus"><lx-drawer-navigator menus="configMenus"></lx-drawer-navigator></div></div></div><div id="lxpp-content"><div overflow="scroll" lx-scroll ng-transclude></div></div></div>'
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         function _link($scope, $element, $attrs, $ctrl, $transclude) {
+            $scope.$watch('configMenus', _onChangeConfigMenus);
             $attrs.$observe('toolbarTheme', _onChangeToolbarTheme);
+            $rootScope.$on('drawer:active', _onDrawerActive);
+
+            $scope.setActive = _setActive;
+            $scope.stopPropagation = _stopPropagation;
 
             ////////////////////////////////////////////////////////////////////////////////////////////////
+
+            function _onChangeConfigMenus(newConfigMenus) {
+                if (newConfigMenus[0] && !newConfigMenus[0].items) {
+                    $scope.configMenus = [{items: newConfigMenus}];
+                }
+            }
 
             function _onChangeToolbarTheme(newTheme) {
                 $scope.toolbarThemeObj = {
                     color: newTheme === 'dark' ? 'white' : 'black',
                     textColor: newTheme === 'dark' ? 'tc-white' : 'tc-black',
                 };
+            }
+
+            function _onDrawerActive($event, active) {
+                $scope.active = active;
+            }
+
+            function _setActive() {
+                $rootScope.$broadcast('drawer:active', true);
+            }
+
+            function _stopPropagation($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
             }
         }
     }
@@ -63,9 +90,9 @@
     'use strict';
     angular.module('lxpp').directive('lxDrawerNavigator', lxDrawerNavigator);
 
-    lxDrawerNavigator.$inject = [];
+    lxDrawerNavigator.$inject = ['$rootScope'];
 
-    function lxDrawerNavigator() {
+    function lxDrawerNavigator($rootScope) {
         return {
             link: _link,
             replace: true,
@@ -73,22 +100,144 @@
             scope: {
                 menus: '='
             },
-            template:'<div class="drawernavigator mt mb"><ul class="list" ng-repeat="(header, menu) in menus"><li class="list-subheader" ng-bind="header"></li><li ng-repeat="item in menu" class="list-row list-row--is-clickable" lx-ripple="black"><div class="list-row__primary" ng-if="item.icon"><lx-icon lx-id="{{item.icon}}" lx-size="s" lx-color="{{item.iconColor || \'grey\'}}" lx-type="flat"></lx-icon></div><div class="list-row__content">{{item.label}}</div><div class="list-row__secondary" ng-if="item.info"><lx-icon lx-id="{{item.info}}" lx-size="xs" lx-color="{{item.infoColor || \'grey\'}}" lx-type="flat"></lx-icon></div></li></ul></div>'
+            template:'<div class="drawernavigator mt mb"><ul class="list" ng-repeat="group in menus"><li class="list-subheader" ng-bind="group.header"></li><li ng-repeat="item in group.items" class="list-row list-row--is-clickable" lx-ripple="black" ng-click="navigateHandler(item);"><div class="list-row__primary" ng-if="item.icon || item.avatar"><img ng-src="{{item.avatar}}" ng-if="item.avatar" width="40" height="40" class="img-round"><lx-icon ng-if="!item.avatar" lx-id="{{item.icon}}" lx-size="s" lx-color="{{item.iconColor || \'grey\'}}" lx-type="flat"></lx-icon></div><div class="list-row__content"><span>{{item.label}}</span></div><div class="list-row__secondary" ng-if="item.info"><lx-icon lx-id="{{item.info}}" lx-size="xs" lx-color="{{item.infoColor || \'grey\'}}" lx-type="flat"></lx-icon></div></li></ul></div>'
         };
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         function _link($scope, $element, $attrs, $ctrl, $transclude) {
-            $scope.$watch('menus', _onChangeNavigatorMenu);
+            var tempActive = false;
+            var orinalMenu = [];
+
+            $scope.navigateHandler = _navigateHandler;
+
+            $scope.$watch('menus', _onChangeMenus);
+            $rootScope.$on('drawernavigator:temp', _onTempMenu);
+            $rootScope.$on('drawernavigator:original', _onOriginalMenu);
 
             ////////////////////////////////////////////////////////////////////////////////////////////////
 
-            function _onChangeNavigatorMenu(newMenu, a, b, c) {
-                if (newMenu instanceof Array) {
-                    $scope.menus = {
-                        '': newMenu
-                    };
+            function _onChangeMenus(newMenus) {
+                if (!tempActive) {
+                    orinalMenu = newMenus;
                 }
+            }
+
+            function _onTempMenu($event, tempMenu) {
+                tempActive = true;
+                $scope.menus = tempMenu;
+            }
+
+            function _onOriginalMenu() {
+                tempActive = false;
+                $scope.menus = orinalMenu;
+            }
+
+            function _navigateHandler(menuItem) {
+                if (menuItem.handler) {
+                    if (menuItem.handler()) {
+                        $rootScope.$broadcast('drawer:active', false);
+                    }
+                }
+            }
+        }
+    }
+})(angular);
+/**
+ * Fernando Franco
+ * Directive Userlayout
+ */
+(function (angular) {
+    'use strict';
+    angular.module('lxpp').directive('lxDrawerUser', lxDrawerUser);
+
+    lxDrawerUser.$inject = ['$rootScope'];
+
+    function lxDrawerUser($rootScope) {
+        return {
+            link: _link,
+            replace: true,
+            restrict: 'E',
+            scope: {
+                users: '=',
+                minDrawer: '=',
+                background: '@'
+            },
+            template:'<div ng-class="{\'min\': minDrawer}" id="drawer-user" ng-click="toggleUsers();"><div class="drawer-user__max"><img class="user-background" ng-src="{{background}}"> <img class="user-avatar z1" ng-src="{{user.image}}"></div><div class="toolbar bgc-white"><div class="toolbar__left mr+"><img class="user-avatar z1" ng-src="{{user.image}}"></div><div class="toolbar__label"><span class="fs-body-2" ng-bind="user.name"></span><lx-icon lx-id="{{menuIcon}}" lx-size="s" lx-color="grey" lx-type="flat"></lx-icon></div><div class="toolbar__right"><lx-button class="toogle-button" lx-size="l" lx-color="grey" lx-type="icon" ng-click="hideDrawer($event);"><i class="mdi mdi-chevron-left"></i></lx-button></div></div></div>'
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function _link($scope, $element, $attrs, $ctrl, $transclude) {
+            var menuDown = 'menu-down';
+            var menuUp = 'menu-up';
+            var showUsers = false;
+
+            $scope.user = null;
+            $scope.menuIcon = menuDown;
+
+            $scope.hideDrawer = _hideDrawer;
+            $scope.toggleUsers = _toggleUsers;
+
+            $scope.$watch('users', _onChangeUsers);
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+
+            function _onChangeUsers(newUsers) {
+                if (!newUsers) {
+                    $scope.user = null;
+                    return;
+                }
+                
+                if (!(newUsers instanceof Array)) {
+                    $scope.users = [newUsers];
+                }
+
+                $scope.users.forEach(function(user) {
+                    if (user.active) {
+                        $scope.user = user;
+                    }
+                });
+
+                if (!$scope.user) {
+                    $scope.user = $scope.users[0] || null;
+                }
+            }
+
+            function _toggleUsers() {
+                if (showUsers) {
+                    showUsers = false;
+                    $scope.menuIcon = menuDown;
+                    return $rootScope.$broadcast('drawernavigator:original');
+                }
+
+                var tempMenu = [];
+                $scope.users.forEach(function(user) {
+                    if (user !== $scope.user) {
+                        tempMenu.push({
+                            label: user.name,
+                            avatar: user.image,
+                            handler: function _changeUser() {
+                                showUsers = false;
+                                $scope.user = user;
+                                $scope.menuIcon = menuDown;
+                                $rootScope.$broadcast('drawernavigator:original');
+                                $rootScope.$broadcast('draweruser:changeuser', user);
+                            }
+                        });
+                    }
+                });
+
+                showUsers = true;
+                $scope.menuIcon = menuUp;
+                $rootScope.$broadcast('drawernavigator:temp', [{items: tempMenu}]);
+            }
+
+            function _hideDrawer($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+
+                $rootScope.$broadcast('drawer:active', false);
             }
         }
     }
@@ -101,9 +250,9 @@
     'use strict';
     angular.module('lxpp').directive('lxScroll', lxScroll);
 
-    lxScroll.$inject = [];
+    lxScroll.$inject = ['$timeout'];
 
-    function lxScroll() {
+    function lxScroll($timeout) {
         return {
             link: _link,
             restrict: 'A'
@@ -112,7 +261,30 @@
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         function _link($scope, $element, $attrs, $ctrl, $transclude) {
-            $element.scrollbar();
+            $scope.$watch(_checkWidthChange, _onResize);
+            $scope.$watch(_checkHeightChange, _onResize);
+
+            _init();
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+
+            function _init() {
+                $timeout(function() {
+                    $element.scrollbar();
+                }, 1000);
+            }
+
+            function _checkWidthChange() {
+                return $element.width();
+            }
+
+            function _checkHeightChange() {
+                return $element.height();
+            }
+
+            function _onResize() {
+                $element.scrollbar();
+            }
         }
     }
 })(angular);

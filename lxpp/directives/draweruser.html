@@ -1,0 +1,20 @@
+<div ng-class="{'min': minDrawer}" id="drawer-user" ng-click="toggleUsers();">
+    <div class="drawer-user__max">
+        <img class="user-background" ng-src="{{background}}" />
+        <img class="user-avatar z1" ng-src="{{user.image}}" />
+    </div>
+    <div class="toolbar bgc-white">
+        <div class="toolbar__left mr+">
+            <img class="user-avatar z1" ng-src="{{user.image}}" />
+        </div>
+        <div class="toolbar__label">
+            <span class="fs-body-2" ng-bind="user.name"></span>
+            <lx-icon lx-id="{{menuIcon}}" lx-size="s" lx-color="grey" lx-type="flat"></lx-icon>
+        </div>
+        <div class="toolbar__right">
+            <lx-button class="toogle-button" lx-size="l" lx-color="grey" lx-type="icon" ng-click="hideDrawer($event);">
+                <i class="mdi mdi-chevron-left"></i>
+            </lx-button>
+        </div>
+    </div>
+</div>

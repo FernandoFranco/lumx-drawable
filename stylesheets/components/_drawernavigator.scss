@@ -1,24 +1,30 @@
 .drawernavigator {
-    .list-subheader {
-        font-weight: bold;
-        &:empty {
-            display: none;
-        }
-    }
-
-    .list-row {
-        .list-row__primary {
-            min-width: 56px;
-        }
-        .list-row__content {
-            display: block;
+    .list {
+        .list-subheader {
+            font-weight: bold;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+            &:empty {
+                display: none;
+            }
         }
-    }
+        .list-row {
+            .list-row__primary {
+                min-width: 56px;
+            }
+            .list-row__content {
+                min-width: 46px;
 
-    +.drawernavigator {
-        border-top: 1px solid rgba(0, 0, 0, 0.12);
+                span {
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+            }
+        }
+        +.list {
+            border-top: 1px solid rgba(0, 0, 0, 0.12);
+        }
     }
 }

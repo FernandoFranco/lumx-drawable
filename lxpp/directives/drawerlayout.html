@@ -2,7 +2,7 @@
     <div id="lxpp-toolbar">
         <div class="toolbar z4" ng-class="toolbarBgc">
             <div class="toolbar__left">
-                <lx-button class="toogle-button mr" lx-size="l" lx-color="{{toolbarThemeObj.color}}" lx-type="icon" ng-click="active = !active;">
+                <lx-button class="toogle-button mr" lx-size="l" lx-color="{{toolbarThemeObj.color}}" lx-type="icon" ng-click="setActive();">
                     <i class="mdi mdi-menu"></i>
                 </lx-button>
             </div>
@@ -10,16 +10,16 @@
         </div>
     </div>
     <div id="lxpp-navigator" ng-click="active = (drawerType === 'temporary') ? !active : active;">
-        <div overflow="auto" lx-scroll>
-            <div id="navigator-toolbar" class="toolbar bgc-white">
-                <span class="toolbar__label fs-title tc-white"></span>
-                <div class="toolbar__right">
-                    <lx-button class="toogle-button" lx-size="l" lx-color="grey" lx-type="icon" ng-click="active = !active;">
-                        <i class="mdi mdi-chevron-left"></i>
-                    </lx-button>
+        <div ng-click="stopPropagation($event);" layout="column" item>
+            <div layout="column" item>
+                <div overflow="auto" lx-scroll>
+                    <lx-drawer-user users="drawerUsers" background="{{drawerBackground}}" min-drawer="drawerType !== 'temporary'"></lx-drawer-user>
+                    <lx-drawer-navigator menus="navigatorMenus"></lx-drawer-navigator>
                 </div>
             </div>
-            <lx-drawer-navigator menus="navigatorMenus"></lx-drawer-navigator>
+            <div class="config-menus" ng-if="configMenus">
+                <lx-drawer-navigator menus="configMenus"></lx-drawer-navigator>
+            </div>
         </div>
     </div>
     <div id="lxpp-content">

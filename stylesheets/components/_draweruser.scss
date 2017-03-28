@@ -1,0 +1,66 @@
+@import "../settings/settings";
+@mixin heightToolbar() {
+    // See lumx/modules/toolbar/scss/_toolbar.scss
+    @include media-query(portable) {
+        min-height: $base-spacing-unit * 7;
+    } // See lumx/modules/toolbar/scss/_toolbar.scss
+    @include media-query(desk) {
+        min-height: $base-spacing-unit * 8;
+    }
+}
+
+#drawer-user {
+    position: relative;
+    @include heightToolbar();
+    .drawer-user__max {
+        .user-background {
+            width: 320px;
+            height: 180px;
+        }
+        .user-avatar {
+            left: 16px;
+            width: 64px;
+            height: 64px;
+            bottom: 64px;
+            position: absolute;
+            border-radius: 32px;
+            background-color: white;
+        }
+    }
+    .toolbar {
+        position: absolute;
+        bottom: 0;
+        width: 320px;
+        background-color: transparent !important;
+    }
+    .toolbar__left {
+        display: none;
+    }
+    .toolbar__label {
+        color: white;
+        cursor: pointer;
+        .fs-body-2 {
+            font-weight: 700;
+        }
+        .icon {
+            margin: 4px auto;
+        }
+    }
+    &.min {
+        .user-background {
+            display: none;
+        }
+        .toolbar__left {
+            display: flex;
+            .user-avatar {
+                width: 30px;
+                height: 30px;
+                margin: auto;
+                border-radius: 15px;
+            }
+        }
+        .toolbar__label {
+            color: black;
+        }
+    }
+}
