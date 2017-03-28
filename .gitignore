@@ -50,4 +50,5 @@ jspm_packages
 
 # App
 .tmp
+.vscode
 bower_components/
