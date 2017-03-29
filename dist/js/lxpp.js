@@ -59,7 +59,7 @@
             ////////////////////////////////////////////////////////////////////////////////////////////////
 
             function _onChangeConfigMenus(newConfigMenus) {
-                if (newConfigMenus[0] && !newConfigMenus[0].items) {
+                if (newConfigMenus && newConfigMenus[0] && !newConfigMenus[0].items) {
                     $scope.configMenus = [{items: newConfigMenus}];
                 }
             }
@@ -184,6 +184,10 @@
             }
 
             function _onChangeMenus(newMenus) {
+                if (!newMenus) {
+                    return;
+                }
+
                 $scope.actions = [];
                 $scope.overflow = [];
 
@@ -201,9 +205,6 @@
 
                     $scope.actions.push(menu);
                 }
-
-                console.log('Actions', $scope.actions);
-                console.log('Overflow', $scope.overflow);
             }
         }
     }
