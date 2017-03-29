@@ -16,11 +16,16 @@
             transclude: true,
             scope: {
                 drawerType: '@',
+
                 toolbarBgc: '@',
-                configMenus: '=',
-                drawerUsers: '=',
+                toolbarMenu: '=',
                 toolbarTheme: '@',
+                toolbarTitle: '@',
+
+                configMenus: '=',
                 navigatorMenus: '=',
+
+                drawerUsers: '=',
                 drawerBackground: '@'
             },
             templateUrl: 'drawerlayout.html'
@@ -30,7 +35,6 @@
 
         function _link($scope, $element, $attrs, $ctrl, $transclude) {
             $scope.$watch('configMenus', _onChangeConfigMenus);
-            $attrs.$observe('toolbarTheme', _onChangeToolbarTheme);
             $rootScope.$on('drawer:active', _onDrawerActive);
 
             $scope.setActive = _setActive;
@@ -42,13 +46,6 @@
                 if (newConfigMenus[0] && !newConfigMenus[0].items) {
                     $scope.configMenus = [{items: newConfigMenus}];
                 }
-            }
-
-            function _onChangeToolbarTheme(newTheme) {
-                $scope.toolbarThemeObj = {
-                    color: newTheme === 'dark' ? 'white' : 'black',
-                    textColor: newTheme === 'dark' ? 'tc-white' : 'tc-black',
-                };
             }
 
             function _onDrawerActive($event, active) {

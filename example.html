@@ -13,8 +13,18 @@
 </head>
 
 <body>
-
-    <lx-drawer-layout drawer-type="{{vm.selected}}" toolbar-bgc="bgc-blue-500" toolbar-theme="dark" navigator-menus="vm.menu" config-menus="vm.config" drawer-users="vm.users" drawer-background="/background.png">
+    <lx-drawer-layout drawer-type="{{vm.selected}}" 
+        toolbar-bgc="bgc-blue-500"
+        toolbar-theme="dark"
+        toolbar-title="Lumx PP"
+        toolbar-menu="vm.toolbarMenu"
+        
+        navigator-menus="vm.menu"
+        config-menus="vm.config"
+        
+        drawer-users="vm.users"
+        drawer-background="/background.png">
+        
         <div class="fs-display-2 display-block p+">
             <img src="/favicon.png" alt="Logo" height="56px" style="float: left;" />
             <p style="line-height: 56px;">Lumx PP</p>
@@ -109,6 +119,12 @@
 
                     config: [
                         {label: 'Settings', icon: 'settings', handler: _notification('Settings')}
+                    ],
+
+                    toolbarMenu: [
+                        {icon: 'clippy', title: 'Clippy', showAsAction: 'ifRom', handler: _notification('Toolbar Clippy')},
+                        {icon: 'android', title: 'Android', showAsAction: 'never', handler: _notification('Toolbar Android')},
+                        {icon: 'share-variant', title: '', showAsAction: 'always', handler: _notification('Toolbar Share Variant')}
                     ]
                 }
 

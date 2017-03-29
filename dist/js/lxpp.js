@@ -32,21 +32,25 @@
             transclude: true,
             scope: {
                 drawerType: '@',
+
                 toolbarBgc: '@',
-                configMenus: '=',
-                drawerUsers: '=',
+                toolbarMenu: '=',
                 toolbarTheme: '@',
+                toolbarTitle: '@',
+
+                configMenus: '=',
                 navigatorMenus: '=',
+
+                drawerUsers: '=',
                 drawerBackground: '@'
             },
-            template:'<div class="drawerlayout" ng-class="{\'drawer-active\': active}"><div id="lxpp-toolbar"><div class="toolbar z4" ng-class="toolbarBgc"><div class="toolbar__left"><lx-button class="toogle-button mr" lx-size="l" lx-color="{{toolbarThemeObj.color}}" lx-type="icon" ng-click="setActive();"><i class="mdi mdi-menu"></i></lx-button></div><span class="ml toolbar__label fs-title {{toolbarThemeObj.textColor}}">Lorem Ipsum</span></div></div><div id="lxpp-navigator" ng-click="active = (drawerType === \'temporary\') ? !active : active;"><div ng-click="stopPropagation($event);" layout="column" item><div layout="column" item><div overflow="auto" lx-scroll><lx-drawer-user users="drawerUsers" background="{{drawerBackground}}" min-drawer="drawerType !== \'temporary\'"></lx-drawer-user><lx-drawer-navigator menus="navigatorMenus"></lx-drawer-navigator></div></div><div class="config-menus" ng-if="configMenus"><lx-drawer-navigator menus="configMenus"></lx-drawer-navigator></div></div></div><div id="lxpp-content"><div overflow="scroll" lx-scroll ng-transclude></div></div></div>'
+            template:'<div class="drawerlayout" ng-class="{\'drawer-active\': active}"><lx-toolbar menus="toolbarMenu" bgc="{{toolbarBgc}}" theme="{{toolbarTheme}}" title="{{toolbarTitle}}" toggle-handler="setActive();"></lx-toolbar><div id="lxpp-navigator" ng-click="active = (drawerType === \'temporary\') ? !active : active;"><div ng-click="stopPropagation($event);" layout="column" item><div layout="column" item><div overflow="auto" lx-scroll><lx-drawer-user users="drawerUsers" background="{{drawerBackground}}" min-drawer="drawerType !== \'temporary\'"></lx-drawer-user><lx-drawer-navigator menus="navigatorMenus"></lx-drawer-navigator></div></div><div class="config-menus" ng-if="configMenus"><lx-drawer-navigator menus="configMenus"></lx-drawer-navigator></div></div></div><div id="lxpp-content"><div overflow="scroll" lx-scroll ng-transclude></div></div></div>'
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         function _link($scope, $element, $attrs, $ctrl, $transclude) {
             $scope.$watch('configMenus', _onChangeConfigMenus);
-            $attrs.$observe('toolbarTheme', _onChangeToolbarTheme);
             $rootScope.$on('drawer:active', _onDrawerActive);
 
             $scope.setActive = _setActive;
@@ -58,13 +62,6 @@
                 if (newConfigMenus[0] && !newConfigMenus[0].items) {
                     $scope.configMenus = [{items: newConfigMenus}];
                 }
-            }
-
-            function _onChangeToolbarTheme(newTheme) {
-                $scope.toolbarThemeObj = {
-                    color: newTheme === 'dark' ? 'white' : 'black',
-                    textColor: newTheme === 'dark' ? 'tc-white' : 'tc-black',
-                };
             }
 
             function _onDrawerActive($event, active) {
@@ -139,6 +136,74 @@
                         $rootScope.$broadcast('drawer:active', false);
                     }
                 }
+            }
+        }
+    }
+})(angular);
+/**
+ * Fernando Franco
+ * Directive DrawerToolbar
+ */
+(function (angular) {
+    'use strict';
+    angular.module('lxpp').directive('lxToolbar', lxToolbar);
+
+    lxToolbar.$inject = [];
+
+    function lxToolbar() {
+        return {
+            link: _link,
+            replace: true,
+            restrict: 'E',
+            scope: {
+                bgc: '@',
+                title: '@',
+                theme: '@',
+                menus: '=',
+                toggleHandler: '&'
+            },
+            template:'<div id="lxpp-toolbar"><div class="toolbar z4" ng-class="bgc"><div class="toolbar__left"><lx-button class="toogle-button mr" lx-size="l" lx-color="{{themeObj.color}}" lx-type="icon" ng-click="toggleHandler();"><i class="mdi mdi-menu"></i></lx-button></div><span class="ml toolbar__label fs-title {{themeObj.textColor}}" ng-bind="title"></span><div class="toolbar__right"><lx-dropdown lx-position="right" lx-over-toggle="true" ng-if="overflow.length > 0"><lx-dropdown-toggle><lx-button lx-size="l" lx-color="{{themeObj.color}}" lx-type="icon"><i class="mdi mdi-dots-vertical"></i></lx-button></lx-dropdown-toggle><lx-dropdown-menu><ul><li ng-repeat="menu in overflow"><a class="dropdown-link"><i class="mdi mdi-delete"></i> <span ng-bind="menu.title"></span></a></li></ul></lx-dropdown-menu></lx-dropdown></div></div></div>'
+        };
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function _link($scope, $element, $attrs, $ctrl, $transclude) {
+            $attrs.$observe('theme', _onChangeTheme);
+            $scope.$watch('menus', _onChangeMenus);
+
+            $scope.overflow = [];
+            $scope.actions = [];
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+
+            function _onChangeTheme(newTheme) {
+                $scope.themeObj = {
+                    color: newTheme === 'dark' ? 'white' : 'black',
+                    textColor: newTheme === 'dark' ? 'tc-white' : 'tc-black',
+                };
+            }
+
+            function _onChangeMenus(newMenus) {
+                $scope.actions = [];
+                $scope.overflow = [];
+
+                if (!(newMenus instanceof Array)) {
+                    newMenus = [newMenus];
+                }
+
+                for (var i = 0; i < newMenus.length; i++) {
+                    var menu = newMenus[i];
+
+                    if (menu.showAsAction.indexOf('never') >= 0) {
+                        $scope.overflow.push(menu);
+                        continue;
+                    }
+
+                    $scope.actions.push(menu);
+                }
+
+                console.log('Actions', $scope.actions);
+                console.log('Overflow', $scope.overflow);
             }
         }
     }

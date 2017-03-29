@@ -1,0 +1,31 @@
+<div id="lxpp-toolbar">
+    <div class="toolbar z4" ng-class="bgc">
+        <div class="toolbar__left">
+            <lx-button class="toogle-button mr" lx-size="l" lx-color="{{themeObj.color}}" lx-type="icon" ng-click="toggleHandler();">
+                <i class="mdi mdi-menu"></i>
+            </lx-button>
+        </div>
+        <span class="ml toolbar__label fs-title {{themeObj.textColor}}" ng-bind="title"></span>
+        <div class="toolbar__right">
+
+            <lx-dropdown lx-position="right" lx-over-toggle="true" ng-if="overflow.length > 0">
+                <lx-dropdown-toggle>
+                    <lx-button lx-size="l" lx-color="{{themeObj.color}}" lx-type="icon">
+                        <i class="mdi mdi-dots-vertical"></i>
+                    </lx-button>
+                </lx-dropdown-toggle>
+
+                <lx-dropdown-menu>
+                    <ul>
+                        <li ng-repeat="menu in overflow">
+                            <a class="dropdown-link">
+                                <i class="mdi mdi-delete"></i>
+                                <span ng-bind="menu.title"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </lx-dropdown-menu>
+            </lx-dropdown>
+        </div>
+    </div>
+</div>
