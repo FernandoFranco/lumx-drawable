@@ -43,7 +43,7 @@
             ////////////////////////////////////////////////////////////////////////////////////////////////
 
             function _onChangeConfigMenus(newConfigMenus) {
-                if (newConfigMenus[0] && !newConfigMenus[0].items) {
+                if (newConfigMenus && newConfigMenus[0] && !newConfigMenus[0].items) {
                     $scope.configMenus = [{items: newConfigMenus}];
                 }
             }

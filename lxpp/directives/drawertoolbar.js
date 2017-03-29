@@ -42,6 +42,10 @@
             }
 
             function _onChangeMenus(newMenus) {
+                if (!newMenus) {
+                    return;
+                }
+
                 $scope.actions = [];
                 $scope.overflow = [];
 
@@ -59,9 +63,6 @@
 
                     $scope.actions.push(menu);
                 }
-
-                console.log('Actions', $scope.actions);
-                console.log('Overflow', $scope.overflow);
             }
         }
     }
