@@ -1,6 +1,6 @@
 {
   "name": "lumx-pp",
-  "version": "1.0.0",
+  "version": "0.5.0",
   "description": "Addons to lumx",
   "main": "/stylesheets/lxpp.css",
   "scripts": {

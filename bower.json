@@ -1,7 +1,7 @@
 {
   "name": "lumx-pp",
   "description": "Addons to lumx",
-  "version": "0.3.0",
+  "version": "0.5.0",
   "main": "dist/js/lxpp.js",
   "authors": [
     "Ferando Franco <atr.franco@gmail.com>"
