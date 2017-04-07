@@ -13,24 +13,45 @@
 </head>
 
 <body>
-    <lx-drawer-layout drawer-type="{{vm.selected}}" 
-        toolbar-bgc="bgc-blue-500"
-        toolbar-theme="dark"
-        toolbar-title="Lumx PP"
-        toolbar-menu="vm.toolbarMenu"
-        
+    <lx-drawer-layout
+        drawer-type="{{vm.selected}}"
+
         navigator-menus="vm.menu"
         config-menus="vm.config"
         
+        toolbar-bgc="bgc-blue-500"
+        toolbar-theme="dark"
+        toolbar-title="Lumx PP" 
+        toolbar-menu="vm.toolbarMenu"
+        toolbar-back-button="vm.backButton"
+        
         drawer-users="vm.users"
         drawer-background="/background.png">
-        
+
         <div class="fs-display-2 display-block p+">
             <img src="/favicon.png" alt="Logo" height="56px" style="float: left;" />
             <p style="line-height: 56px;">Lumx PP</p>
         </div>
+
         <div class="p+">
-            <lx-button class="mr+" ng-repeat="type in vm.list" lx-type="raised" ng-click="vm.selected = type;">{{type}}</lx-button>
+            <lx-button lx-type="raised" ng-click="vm.backButton = !vm.backButton;">Toogle Back Button</lx-button>
+        </div>
+
+        <div class="p+ pt0">
+            <lx-button class="mr+" ng-repeat="type in vm.buttons" lx-type="raised" ng-click="vm.selected = type;">{{type}}</lx-button>
+        </div>
+
+        <div class="p">
+            <lx-expand-list class="bgc-white" ng-repeat="item in vm.list" lx-label="{{item.label}}" lx-id="android" lx-menu="item.menu">
+                <form name="form" class="ph+ pb+">
+                    <lx-text-field lx-label="Example">
+                        <input name="exmaple" type="text" ng-model="vm.form.exmaple">
+                    </lx-text-field>
+                    <lx-text-field lx-label="Example">
+                        <input name="exmaple" type="text" ng-model="vm.form.exmaple">
+                    </lx-text-field>
+                </form>
+            </lx-expand-list>
         </div>
     </lx-drawer-layout>
 
@@ -56,12 +77,24 @@
             function appRun($rootScope, LxNotificationService) {
                 var menuGroup
 
-                $rootScope.$broadcast('draweruser:changeuser', _onChangeUser);
+                $rootScope.$on('draweruser:changeuser', _onChangeUser);
+                $rootScope.$on('drawer:toolbar:back', _goBack);
 
                 $rootScope.vm = {
-                    selected: 'full-height',
+                    backButton: false,
 
                     list: [
+                        {label: 'Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.', menu: [
+                            {icon: 'arrow-up', handler: _listItemHandler, disable: true},
+                            {icon: 'arrow-down', handler: _listItemHandler},
+                            {icon: 'delete', handler: _listItemHandler}
+                        ]},
+                        {label: 'Item 2'}
+                    ],
+
+                    selected: 'full-height',
+
+                    buttons: [
                         'full-height',
                         'clipped',
                         'floating',
@@ -71,60 +104,118 @@
                         'temporary'
                     ],
 
-                    users: [
-                        {name: 'Fernando Franco', image: '/photo.jpg', active: true},
-                        {name: 'Lumx PP', image: '/favicon.png'}
+                    users: [{
+                            name: 'Fernando Franco',
+                            image: '/photo.jpg',
+                            active: true
+                        },
+                        {
+                            name: 'Lumx PP',
+                            image: '/favicon.png'
+                        }
                     ],
 
                     menu: [
                         // Grupo 1
                         {
-                            items: [
-                                {label: 'Without Header', handler: _notification('G1-I1')}
-                            ]
+                            items: [{
+                                label: 'Without Header',
+                                handler: _notification('G1-I1')
+                            }]
                         },
                         // Grupo 2
                         {
                             header: 'Label',
-                            items: [
-                                {label: 'Label', handler: _notification('G2-I1')}
-                            ]
+                            items: [{
+                                label: 'Label',
+                                handler: _notification('G2-I1')
+                            }]
                         },
                         // Grupo 3
                         {
                             header: 'Icon',
-                            items: [
-                                {label: 'Icon', icon: 'language-html5', handler: _notification('G3-I1')},
-                                {label: 'Colored Icon', icon: 'language-html5', iconColor: 'deep-orange', handler: _notification('G3-I2')}
+                            items: [{
+                                    label: 'Icon',
+                                    icon: 'language-html5',
+                                    handler: _notification('G3-I1')
+                                },
+                                {
+                                    label: 'Colored Icon',
+                                    icon: 'language-html5',
+                                    iconColor: 'deep-orange',
+                                    handler: _notification('G3-I2')
+                                }
                             ]
                         },
                         // Grupo 4
                         {
                             header: 'Info',
-                            items: [
-                                {label: 'Info', info: 'language-css3', handler: _notification('G4-I1')},
-                                {label: 'Colored Info', info: 'language-css3', infoColor: 'blue', handler: _notification('G4-I2')}
+                            items: [{
+                                    label: 'Info',
+                                    info: 'language-css3',
+                                    handler: _notification('G4-I1')
+                                },
+                                {
+                                    label: 'Colored Info',
+                                    info: 'language-css3',
+                                    infoColor: 'blue',
+                                    handler: _notification('G4-I2')
+                                }
                             ]
                         },
                         // Grupo 5
                         {
                             header: 'Icon & Info',
-                            items: [
-                                {label: 'Icon & Info', icon: 'language-html5', info: 'language-css3', handler: _notification('G5-I1')},
-                                {label: 'Colored Icon & Info', icon: 'language-html5', iconColor: 'deep-orange', info: 'language-css3', handler: _notification('G5-I2')},
-                                {label: 'Colored Icon & Colored Info', icon: 'language-html5', iconColor: 'deep-orange', info: 'language-css3', infoColor: 'blue', handler: _notification('G5-I3')}
+                            items: [{
+                                    label: 'Icon & Info',
+                                    icon: 'language-html5',
+                                    info: 'language-css3',
+                                    handler: _notification('G5-I1')
+                                },
+                                {
+                                    label: 'Colored Icon & Info',
+                                    icon: 'language-html5',
+                                    iconColor: 'deep-orange',
+                                    info: 'language-css3',
+                                    handler: _notification('G5-I2')
+                                },
+                                {
+                                    label: 'Colored Icon & Colored Info',
+                                    icon: 'language-html5',
+                                    iconColor: 'deep-orange',
+                                    info: 'language-css3',
+                                    infoColor: 'blue',
+                                    handler: _notification('G5-I3')
+                                }
                             ]
                         }
                     ],
 
-                    config: [
-                        {label: 'Settings', icon: 'settings', handler: _notification('Settings')}
-                    ],
+                    config: [{
+                        label: 'Settings',
+                        icon: 'settings',
+                        handler: _notification('Settings')
+                    }],
 
                     toolbarMenu: [
-                        {icon: 'clippy', title: 'Clippy', showAsAction: 'ifRom', handler: _notification('Toolbar Clippy')},
-                        {icon: 'android', title: 'Android', showAsAction: 'never', handler: _notification('Toolbar Android')},
-                        {icon: 'share-variant', title: '', showAsAction: 'always', handler: _notification('Toolbar Share Variant')}
+                        {
+                            icon: 'clippy',
+                            title: 'Clippy',
+                            showAsAction: 'ifRom',
+                            handler: _notification('Toolbar Clippy')
+                        },
+                        {
+                            icon: 'android',
+                            title: 'Android',
+                            showAsAction: 'never',
+                            handler: _notification('Toolbar Android')
+                        },
+                        {
+                            icon: 'share-variant',
+                            title: '',
+                            showAsAction: 'always',
+                            handler: _notification('Toolbar Share Variant')
+                        }
                     ]
                 }
 
@@ -133,9 +224,17 @@
                 function _onChangeUser(userSelected) {
                     LxNotificationService.notify(userSelected.name + ' selected');
                 }
-                
+
+                function _listItemHandler($event, item) {
+                    LxNotificationService.notify(item.icon);
+                }
+
+                function _goBack() {
+                    LxNotificationService.notify('Go Back Handler');
+                }
+
                 function _notification(groupItem) {
-                    return function() {
+                    return function () {
                         LxNotificationService.notify(groupItem + ' clicked');
                         return true; // hideNavigation
                     }

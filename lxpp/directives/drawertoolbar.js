@@ -18,6 +18,7 @@
                 title: '@',
                 theme: '@',
                 menus: '=',
+                backButton: '=',
                 toggleHandler: '&'
             },
             templateUrl: 'drawertoolbar.html'

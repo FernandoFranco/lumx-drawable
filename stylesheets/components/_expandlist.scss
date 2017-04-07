@@ -1,0 +1,74 @@
+@import "../settings/settings";
+@import "../mixins/deepth";
+@import "../mixins/transaction";
+
+.lx-expand-list {
+    cursor: pointer;
+    overflow: hidden;
+    margin: $base-spacing-unit * 2 0;
+
+    @include deepth(2);
+    @include transaction(all, 128ms, ease-in-out);
+
+    .lx-el__content {
+        overflow: hidden;
+        @include transaction(all, 128ms, ease-in-out);
+    }
+
+    .toolbar {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        @include transaction(all, 128ms, ease-in-out);
+
+        .toolbar__label {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            @include transaction(all, 128ms, ease-in-out);
+        }
+
+        .toolbar__right {
+            @include transaction(all, 256ms, ease-in-out);
+        }
+
+        .icon {
+            @include transaction(all, 128ms, ease-in-out);
+        }
+    }
+
+    &.lx-el__min:last-child {
+        .toolbar {
+            border-bottom: 0;
+        }
+    }
+    
+    &.lx-el__min {
+        margin: 0 $base-spacing-unit;
+
+        .toolbar {
+            height: 44px;
+            padding: 2px 16px;
+
+            .toolbar__label {
+                font-size: 14px;
+            }
+
+            .toolbar__right {
+                max-width: 0;
+            }
+
+            .icon {
+                margin: 5px;
+            }
+        }
+
+        .lx-el__content {
+            max-height: 0 !important;
+        }
+
+        &:hover {
+            .toolbar__right {
+                max-width: 100%;
+            }
+        }
+    }
+}

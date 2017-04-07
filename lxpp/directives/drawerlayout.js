@@ -21,6 +21,7 @@
                 toolbarMenu: '=',
                 toolbarTheme: '@',
                 toolbarTitle: '@',
+                toolbarBackButton: '=',
 
                 configMenus: '=',
                 navigatorMenus: '=',
@@ -53,6 +54,10 @@
             }
 
             function _setActive() {
+                if ($scope.toolbarBackButton) {
+                    return $rootScope.$broadcast('drawer:toolbar:back');
+                }
+
                 $rootScope.$broadcast('drawer:active', true);
             }
 

@@ -28,8 +28,8 @@
             $scope.navigateHandler = _navigateHandler;
 
             $scope.$watch('menus', _onChangeMenus);
-            $rootScope.$on('drawernavigator:temp', _onTempMenu);
-            $rootScope.$on('drawernavigator:original', _onOriginalMenu);
+            $rootScope.$on('drawernavigator:' + $attrs.id + ':temp', _onTempMenu);
+            $rootScope.$on('drawernavigator:' + $attrs.id + ':original', _onOriginalMenu);
 
             ////////////////////////////////////////////////////////////////////////////////////////////////
 

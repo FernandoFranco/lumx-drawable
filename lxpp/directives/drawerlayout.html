@@ -1,5 +1,6 @@
 <div class="drawerlayout" ng-class="{'drawer-active': active}">
     <lx-toolbar 
+        back-button="toolbarBackButton"
         menus="toolbarMenu"
         bgc="{{toolbarBgc}}"
         theme="{{toolbarTheme}}"
@@ -8,18 +9,18 @@
     </lx-toolbar>
     <div id="lxpp-navigator" ng-click="active = (drawerType === 'temporary') ? !active : active;">
         <div ng-click="stopPropagation($event);" layout="column" item>
-            <div layout="column" item>
+            <div layout="column" overflow="hidden" item>
                 <div overflow="auto" lx-scroll>
                     <lx-drawer-user 
                         users="drawerUsers"
                         background="{{drawerBackground}}"
                         min-drawer="drawerType !== 'temporary'">
                     </lx-drawer-user>
-                    <lx-drawer-navigator menus="navigatorMenus"></lx-drawer-navigator>
+                    <lx-drawer-navigator id="menu" menus="navigatorMenus"></lx-drawer-navigator>
                 </div>
             </div>
             <div class="config-menus" ng-if="configMenus">
-                <lx-drawer-navigator menus="configMenus"></lx-drawer-navigator>
+                <lx-drawer-navigator id="config" menus="configMenus"></lx-drawer-navigator>
             </div>
         </div>
     </div>

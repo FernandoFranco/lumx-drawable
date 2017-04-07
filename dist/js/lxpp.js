@@ -37,6 +37,7 @@
                 toolbarMenu: '=',
                 toolbarTheme: '@',
                 toolbarTitle: '@',
+                toolbarBackButton: '=',
 
                 configMenus: '=',
                 navigatorMenus: '=',
@@ -44,7 +45,7 @@
                 drawerUsers: '=',
                 drawerBackground: '@'
             },
-            template:'<div class="drawerlayout" ng-class="{\'drawer-active\': active}"><lx-toolbar menus="toolbarMenu" bgc="{{toolbarBgc}}" theme="{{toolbarTheme}}" title="{{toolbarTitle}}" toggle-handler="setActive();"></lx-toolbar><div id="lxpp-navigator" ng-click="active = (drawerType === \'temporary\') ? !active : active;"><div ng-click="stopPropagation($event);" layout="column" item><div layout="column" item><div overflow="auto" lx-scroll><lx-drawer-user users="drawerUsers" background="{{drawerBackground}}" min-drawer="drawerType !== \'temporary\'"></lx-drawer-user><lx-drawer-navigator menus="navigatorMenus"></lx-drawer-navigator></div></div><div class="config-menus" ng-if="configMenus"><lx-drawer-navigator menus="configMenus"></lx-drawer-navigator></div></div></div><div id="lxpp-content"><div overflow="scroll" lx-scroll ng-transclude></div></div></div>'
+            template:'<div class="drawerlayout" ng-class="{\'drawer-active\': active}"><lx-toolbar back-button="toolbarBackButton" menus="toolbarMenu" bgc="{{toolbarBgc}}" theme="{{toolbarTheme}}" title="{{toolbarTitle}}" toggle-handler="setActive();"></lx-toolbar><div id="lxpp-navigator" ng-click="active = (drawerType === \'temporary\') ? !active : active;"><div ng-click="stopPropagation($event);" layout="column" item><div layout="column" overflow="hidden" item><div overflow="auto" lx-scroll><lx-drawer-user users="drawerUsers" background="{{drawerBackground}}" min-drawer="drawerType !== \'temporary\'"></lx-drawer-user><lx-drawer-navigator id="menu" menus="navigatorMenus"></lx-drawer-navigator></div></div><div class="config-menus" ng-if="configMenus"><lx-drawer-navigator id="config" menus="configMenus"></lx-drawer-navigator></div></div></div><div id="lxpp-content"><div overflow="scroll" lx-scroll ng-transclude></div></div></div>'
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,6 +70,10 @@
             }
 
             function _setActive() {
+                if ($scope.toolbarBackButton) {
+                    return $rootScope.$broadcast('drawer:toolbar:back');
+                }
+
                 $rootScope.$broadcast('drawer:active', true);
             }
 
@@ -109,8 +114,8 @@
             $scope.navigateHandler = _navigateHandler;
 
             $scope.$watch('menus', _onChangeMenus);
-            $rootScope.$on('drawernavigator:temp', _onTempMenu);
-            $rootScope.$on('drawernavigator:original', _onOriginalMenu);
+            $rootScope.$on('drawernavigator:' + $attrs.id + ':temp', _onTempMenu);
+            $rootScope.$on('drawernavigator:' + $attrs.id + ':original', _onOriginalMenu);
 
             ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -160,9 +165,10 @@
                 title: '@',
                 theme: '@',
                 menus: '=',
+                backButton: '=',
                 toggleHandler: '&'
             },
-            template:'<div id="lxpp-toolbar"><div class="toolbar z4" ng-class="bgc"><div class="toolbar__left"><lx-button class="toogle-button mr" lx-size="l" lx-color="{{themeObj.color}}" lx-type="icon" ng-click="toggleHandler();"><i class="mdi mdi-menu"></i></lx-button></div><span class="ml toolbar__label fs-title {{themeObj.textColor}}" ng-bind="title"></span><div class="toolbar__right"><lx-dropdown lx-position="right" lx-over-toggle="true" ng-if="overflow.length > 0"><lx-dropdown-toggle><lx-button lx-size="l" lx-color="{{themeObj.color}}" lx-type="icon"><i class="mdi mdi-dots-vertical"></i></lx-button></lx-dropdown-toggle><lx-dropdown-menu><ul><li ng-repeat="menu in overflow"><a class="dropdown-link"><i class="mdi mdi-delete"></i> <span ng-bind="menu.title"></span></a></li></ul></lx-dropdown-menu></lx-dropdown></div></div></div>'
+            template:'<div id="lxpp-toolbar"><div class="toolbar z4" ng-class="bgc"><div class="toolbar__left"><lx-button class="toogle-button mr" lx-size="l" lx-color="{{themeObj.color}}" lx-type="icon" ng-click="toggleHandler();"><i class="mdi" ng-class="{\'mdi-menu\': !backButton, \'mdi-arrow-left\': backButton}"></i></lx-button></div><span class="ml toolbar__label fs-title {{themeObj.textColor}}" ng-bind="title"></span><div class="toolbar__right"><lx-dropdown lx-position="right" lx-over-toggle="true" ng-if="overflow.length > 0"><lx-dropdown-toggle><lx-button lx-size="l" lx-color="{{themeObj.color}}" lx-type="icon"><i class="mdi mdi-dots-vertical"></i></lx-button></lx-dropdown-toggle><lx-dropdown-menu><ul><li ng-repeat="menu in overflow"><a class="dropdown-link"><i class="mdi mdi-delete"></i> <span ng-bind="menu.title"></span></a></li></ul></lx-dropdown-menu></lx-dropdown></div></div></div>'
         };
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -254,12 +260,12 @@
                     $scope.user = null;
                     return;
                 }
-                
+
                 if (!(newUsers instanceof Array)) {
                     $scope.users = [newUsers];
                 }
 
-                $scope.users.forEach(function(user) {
+                $scope.users.forEach(function (user) {
                     if (user.active) {
                         $scope.user = user;
                     }
@@ -274,11 +280,11 @@
                 if (showUsers) {
                     showUsers = false;
                     $scope.menuIcon = menuDown;
-                    return $rootScope.$broadcast('drawernavigator:original');
+                    return $rootScope.$broadcast('drawernavigator:menu:original');
                 }
 
                 var tempMenu = [];
-                $scope.users.forEach(function(user) {
+                $scope.users.forEach(function (user) {
                     if (user !== $scope.user) {
                         tempMenu.push({
                             label: user.name,
@@ -287,7 +293,7 @@
                                 showUsers = false;
                                 $scope.user = user;
                                 $scope.menuIcon = menuDown;
-                                $rootScope.$broadcast('drawernavigator:original');
+                                $rootScope.$broadcast('drawernavigator:menu:original');
                                 $rootScope.$broadcast('draweruser:changeuser', user);
                             }
                         });
@@ -296,7 +302,9 @@
 
                 showUsers = true;
                 $scope.menuIcon = menuUp;
-                $rootScope.$broadcast('drawernavigator:temp', [{items: tempMenu}]);
+                $rootScope.$broadcast('drawernavigator:menu:temp', [{
+                    items: tempMenu
+                }]);
             }
 
             function _hideDrawer($event) {
@@ -304,6 +312,63 @@
                 $event.stopPropagation();
 
                 $rootScope.$broadcast('drawer:active', false);
+            }
+        }
+    }
+})(angular);
+/**
+ * Fernando Franco
+ * Directive Expand List
+ */
+(function (angular) {
+    'use strict';
+    angular.module('lxpp').directive('lxExpandList', lxExpandList);
+
+    lxExpandList.$inject = ['$timeout'];
+
+    function lxExpandList($timeout) {
+        return {
+            link: _link,
+            replace: true,
+            restrict: 'E',
+            transclude: true,
+            scope: {
+                lxId: '@',
+                lxMenu: '=',
+                lxLabel: '@',
+                lxActive: '='
+            },
+            template:'<div class="lx-expand-list" ng-class="{\'lx-el__min\': !isActive}" ng-click="isActive = !isActive;"><div class="toolbar" lx-ripple="black"><div class="toolbar__left mr+"><lx-icon lx-id="{{lxId}}" lx-size="{{isActive ? \'m\' : \'s\'}}" lx-color="grey" lx-type="flat"></lx-icon></div><span class="toolbar__label fs-title">{{lxLabel}}</span><div class="toolbar__right ml+" ng-click="preventStop($event);"><lx-button lx-size="m" lx-color="black" lx-type="icon" ng-repeat="menu in lxMenu" ng-disabled="menu.disable" ng-click="menuHandler($event, menu);"><i class="mdi mdi-{{menu.icon}}"></i></lx-button></div></div><div class="lx-el__content" ng-click="preventStop($event);" ng-transclude></div></div>'
+        };
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function _link($scope, $element, $attrs, $ctrl, $transclude) {
+            var content = $element.find('.lx-el__content');
+
+            $scope.isActive = !!$scope.lxActive;
+            $scope.preventStop = _preventStop;
+            $scope.menuHandler = _menuHandler;
+
+            $scope.$watch(_checkMaxHeight, _changeMaxHeight);
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+
+            function _preventStop($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+            }
+
+            function _menuHandler($event, menu) {
+                menu.handler($event, menu);
+            }
+
+            function _checkMaxHeight() {
+                return content[0].scrollHeight;
+            }
+
+            function _changeMaxHeight(newHeight) {
+                content.css({maxHeight: newHeight});
             }
         }
     }

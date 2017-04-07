@@ -43,12 +43,12 @@
                     $scope.user = null;
                     return;
                 }
-                
+
                 if (!(newUsers instanceof Array)) {
                     $scope.users = [newUsers];
                 }
 
-                $scope.users.forEach(function(user) {
+                $scope.users.forEach(function (user) {
                     if (user.active) {
                         $scope.user = user;
                     }
@@ -63,11 +63,11 @@
                 if (showUsers) {
                     showUsers = false;
                     $scope.menuIcon = menuDown;
-                    return $rootScope.$broadcast('drawernavigator:original');
+                    return $rootScope.$broadcast('drawernavigator:menu:original');
                 }
 
                 var tempMenu = [];
-                $scope.users.forEach(function(user) {
+                $scope.users.forEach(function (user) {
                     if (user !== $scope.user) {
                         tempMenu.push({
                             label: user.name,
@@ -76,7 +76,7 @@
                                 showUsers = false;
                                 $scope.user = user;
                                 $scope.menuIcon = menuDown;
-                                $rootScope.$broadcast('drawernavigator:original');
+                                $rootScope.$broadcast('drawernavigator:menu:original');
                                 $rootScope.$broadcast('draweruser:changeuser', user);
                             }
                         });
@@ -85,7 +85,9 @@
 
                 showUsers = true;
                 $scope.menuIcon = menuUp;
-                $rootScope.$broadcast('drawernavigator:temp', [{items: tempMenu}]);
+                $rootScope.$broadcast('drawernavigator:menu:temp', [{
+                    items: tempMenu
+                }]);
             }
 
             function _hideDrawer($event) {

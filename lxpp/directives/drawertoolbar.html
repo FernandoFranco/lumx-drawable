@@ -2,7 +2,7 @@
     <div class="toolbar z4" ng-class="bgc">
         <div class="toolbar__left">
             <lx-button class="toogle-button mr" lx-size="l" lx-color="{{themeObj.color}}" lx-type="icon" ng-click="toggleHandler();">
-                <i class="mdi mdi-menu"></i>
+                <i class="mdi" ng-class="{'mdi-menu': !backButton, 'mdi-arrow-left': backButton}"></i>
             </lx-button>
         </div>
         <span class="ml toolbar__label fs-title {{themeObj.textColor}}" ng-bind="title"></span>
