@@ -42,7 +42,7 @@
         </div>
 
         <div class="p">
-            <lx-expand-list class="bgc-white" ng-repeat="item in vm.list" lx-label="{{item.label}}" lx-id="android" lx-menu="item.menu">
+            <lx-expand-list class="bgc-white" ng-repeat="item in vm.list" lx-label="{{item.label}}" lx-id="android" lx-menu="item.menu" lx-menu-item="item">
                 <form name="form" class="ph+ pb+">
                     <lx-text-field lx-label="Example">
                         <input name="exmaple" type="text" ng-model="vm.form.exmaple">
@@ -84,12 +84,12 @@
                     backButton: false,
 
                     list: [
-                        {label: 'Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.', menu: [
+                        {label: 'Item 1', menu: [
                             {icon: 'arrow-up', handler: _listItemHandler, disable: true},
                             {icon: 'arrow-down', handler: _listItemHandler},
                             {icon: 'delete', handler: _listItemHandler}
                         ]},
-                        {label: 'Item 2'}
+                        {label: 'Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.'}
                     ],
 
                     selected: 'full-height',
@@ -225,8 +225,8 @@
                     LxNotificationService.notify(userSelected.name + ' selected');
                 }
 
-                function _listItemHandler($event, item) {
-                    LxNotificationService.notify(item.icon);
+                function _listItemHandler($event, menu, item) {
+                    LxNotificationService.notify(item.label, menu.icon);
                 }
 
                 function _goBack() {

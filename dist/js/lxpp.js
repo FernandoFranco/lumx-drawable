@@ -336,9 +336,10 @@
                 lxId: '@',
                 lxMenu: '=',
                 lxLabel: '@',
-                lxActive: '='
+                lxActive: '=',
+                lxMenuItem: '='
             },
-            template:'<div class="lx-expand-list" ng-class="{\'lx-el__min\': !isActive}" ng-click="isActive = !isActive;"><div class="toolbar" lx-ripple="black"><div class="toolbar__left mr+"><lx-icon lx-id="{{lxId}}" lx-size="{{isActive ? \'m\' : \'s\'}}" lx-color="grey" lx-type="flat"></lx-icon></div><span class="toolbar__label fs-title">{{lxLabel}}</span><div class="toolbar__right ml+" ng-click="preventStop($event);"><lx-button lx-size="m" lx-color="black" lx-type="icon" ng-repeat="menu in lxMenu" ng-disabled="menu.disable" ng-click="menuHandler($event, menu);"><i class="mdi mdi-{{menu.icon}}"></i></lx-button></div></div><div class="lx-el__content" ng-click="preventStop($event);" ng-transclude></div></div>'
+            template:'<div class="lx-expand-list" ng-class="{\'lx-el__min\': !isActive}" ng-click="isActive = !isActive;"><div class="toolbar" lx-ripple="black"><div class="toolbar__left mr+" ng-if="!!lxId"><lx-icon lx-id="{{lxId}}" lx-size="{{isActive ? \'m\' : \'s\'}}" lx-color="grey" lx-type="flat"></lx-icon></div><span class="toolbar__label fs-title">{{lxLabel}}</span><div class="toolbar__right ml+" ng-click="preventStop($event);"><lx-button lx-size="m" lx-color="black" lx-type="icon" ng-repeat="menu in lxMenu" ng-disabled="menu.disable" ng-click="menuHandler($event, menu);"><i class="mdi mdi-{{menu.icon}}"></i></lx-button></div></div><div class="lx-el__content" ng-click="preventStop($event);" ng-transclude></div></div>'
         };
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -360,7 +361,7 @@
             }
 
             function _menuHandler($event, menu) {
-                menu.handler($event, menu);
+                menu.handler($event, menu, $scope.lxMenuItem);
             }
 
             function _checkMaxHeight() {
@@ -368,7 +369,9 @@
             }
 
             function _changeMaxHeight(newHeight) {
-                content.css({maxHeight: newHeight});
+                content.css({
+                    maxHeight: newHeight
+                });
             }
         }
     }

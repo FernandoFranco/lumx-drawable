@@ -18,7 +18,8 @@
                 lxId: '@',
                 lxMenu: '=',
                 lxLabel: '@',
-                lxActive: '='
+                lxActive: '=',
+                lxMenuItem: '='
             },
             templateUrl: 'expandlist.html'
         };
@@ -42,7 +43,7 @@
             }
 
             function _menuHandler($event, menu) {
-                menu.handler($event, menu);
+                menu.handler($event, menu, $scope.lxMenuItem);
             }
 
             function _checkMaxHeight() {
@@ -50,7 +51,9 @@
             }
 
             function _changeMaxHeight(newHeight) {
-                content.css({maxHeight: newHeight});
+                content.css({
+                    maxHeight: newHeight
+                });
             }
         }
     }
