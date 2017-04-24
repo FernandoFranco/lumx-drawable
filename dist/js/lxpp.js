@@ -318,28 +318,30 @@
 })(angular);
 /**
  * Fernando Franco
- * Directive Expand List
+ * Directive Expand Item
  */
 (function (angular) {
     'use strict';
-    angular.module('lxpp').directive('lxExpandList', lxExpandList);
+    angular.module('lxpp').directive('lxExpandItem', lxExpandItem);
 
-    lxExpandList.$inject = ['$timeout'];
+    lxExpandItem.$inject = ['$timeout'];
 
-    function lxExpandList($timeout) {
+    function lxExpandItem($timeout) {
         return {
             link: _link,
             replace: true,
             restrict: 'E',
             transclude: true,
             scope: {
-                lxId: '@',
-                lxMenu: '=',
+                lxIcon: '@',
+                lxMenu: '=?',
                 lxLabel: '@',
-                lxActive: '=',
-                lxMenuItem: '='
+                lxActive: '=?',
+                lxMenuItem: '=?',
+                lxIconColor: '@',
+                lxToggleActive: '&?'
             },
-            template:'<div class="lx-expand-list" ng-class="{\'lx-el__min\': !isActive}" ng-click="isActive = !isActive;"><div class="toolbar" lx-ripple="black"><div class="toolbar__left mr+" ng-if="!!lxId"><lx-icon lx-id="{{lxId}}" lx-size="{{isActive ? \'m\' : \'s\'}}" lx-color="grey" lx-type="flat"></lx-icon></div><span class="toolbar__label fs-title">{{lxLabel}}</span><div class="toolbar__right ml+" ng-click="preventStop($event);"><lx-button lx-size="m" lx-color="black" lx-type="icon" ng-repeat="menu in lxMenu" ng-disabled="menu.disable" ng-click="menuHandler($event, menu);"><i class="mdi mdi-{{menu.icon}}"></i></lx-button></div></div><div class="lx-el__content" ng-click="preventStop($event);" ng-transclude></div></div>'
+            template:'<div class="lx-expand-list" ng-class="{\'lx-el__min\': !active}" ng-click="toggleActive($event, active);"><div class="toolbar" lx-ripple="black"><div class="toolbar__left mr+" ng-if="!!lxIcon"><lx-icon lx-id="{{lxIcon}}" lx-size="{{!!active ? \'m\' : \'s\'}}" lx-color="{{lxIconColor || \'grey\'}}" lx-type="flat"></lx-icon></div><span class="toolbar__label fs-title">{{lxLabel}}</span><div class="toolbar__right ml+" ng-click="preventStop($event);"><lx-button lx-size="m" lx-color="black" lx-type="icon" ng-repeat="menu in lxMenu" ng-disabled="menu.disable" ng-click="menuHandler($event, menu);"><i class="mdi mdi-{{menu.icon}}"></i></lx-button></div></div><div class="lx-el__content" ng-click="preventStop($event);" ng-transclude></div></div>'
         };
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -347,13 +349,20 @@
         function _link($scope, $element, $attrs, $ctrl, $transclude) {
             var content = $element.find('.lx-el__content');
 
-            $scope.isActive = !!$scope.lxActive;
             $scope.preventStop = _preventStop;
             $scope.menuHandler = _menuHandler;
+            $scope.toggleActive = _toggleActive;
 
             $scope.$watch(_checkMaxHeight, _changeMaxHeight);
+            $scope.$watch('lxActive', _onChangeActive);
+
+            _init();
 
             ////////////////////////////////////////////////////////////////////////////////////////////////
+
+            function _init() {
+                $scope.active = !!$scope.lxActive;
+            }
 
             function _preventStop($event) {
                 $event.preventDefault();
@@ -364,6 +373,13 @@
                 menu.handler($event, menu, $scope.lxMenuItem);
             }
 
+            function _toggleActive($event, lxSelected) {
+                $scope.active = $scope.lxToggleActive({
+                    $event: $event,
+                    selected: lxSelected
+                });
+            }
+
             function _checkMaxHeight() {
                 return content[0].scrollHeight;
             }
@@ -372,6 +388,58 @@
                 content.css({
                     maxHeight: newHeight
                 });
+            }
+
+            function _onChangeActive(newActive) {
+                $scope.active = newActive;
+            }
+        }
+    }
+})(angular);
+/**
+ * Fernando Franco
+ * Directive Expand List
+ */
+(function (angular) {
+    'use strict';
+    angular.module('lxpp').directive('lxExpandList', lxExpandList);
+
+    lxExpandList.$inject = [];
+
+    function lxExpandList() {
+        return {
+            link: _link,
+            replace: true,
+            restrict: 'E',
+            transclude: true,
+            scope: {
+                lxData: '=',
+                lxSelected: '=?',
+
+                lxIcon: '@',
+                lxMenu: '=?',
+                lxIconColor: '@'
+            },
+            template:'<div class="p"><lx-expand-item class="bgc-white" ng-repeat="data in lxData" lx-label="{{data.label}}" lx-icon="{{data.icon || lxIcon}}" lx-icon-color="{{data.iconColor || lxIconColor}}" lx-menu="(data.menu || lxMenu)" lx-toggle-active="toggleActive($event, selected, data);" lx-active="(lxSelected == data)"><div ng-transclude></div></lx-expand-item></div>'
+        };
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function _link($scope, $element, $attrs, $ctrl, $transclude) {
+
+            $scope.toggleActive = _toggleActive;
+
+            _init();
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+
+            function _init() {
+                $scope.lxSelected = $scope.lxSelected || null;
+            }
+
+            function _toggleActive($event, lxSelected, data) {
+                $scope.lxSelected = data;
+                return !lxSelected;
             }
         }
     }

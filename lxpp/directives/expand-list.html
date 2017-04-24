@@ -1,0 +1,7 @@
+<div class="p">
+    <lx-expand-item class="bgc-white" ng-repeat="data in lxData" lx-label="{{data.label}}" lx-icon="{{data.icon || lxIcon}}"
+        lx-icon-color="{{data.iconColor || lxIconColor}}" lx-menu="(data.menu || lxMenu)" lx-toggle-active="toggleActive($event, selected, data);"
+        lx-active="(lxSelected == data)">
+        <div ng-transclude></div>
+    </lx-expand-item>
+</div>

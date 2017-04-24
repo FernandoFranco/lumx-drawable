@@ -1,27 +1,29 @@
 /**
  * Fernando Franco
- * Directive Expand List
+ * Directive Expand Item
  */
 (function (angular) {
     'use strict';
-    angular.module('lxpp').directive('lxExpandList', lxExpandList);
+    angular.module('lxpp').directive('lxExpandItem', lxExpandItem);
 
-    lxExpandList.$inject = ['$timeout'];
+    lxExpandItem.$inject = ['$timeout'];
 
-    function lxExpandList($timeout) {
+    function lxExpandItem($timeout) {
         return {
             link: _link,
             replace: true,
             restrict: 'E',
             transclude: true,
             scope: {
-                lxId: '@',
-                lxMenu: '=',
+                lxIcon: '@',
+                lxMenu: '=?',
                 lxLabel: '@',
-                lxActive: '=',
-                lxMenuItem: '='
+                lxActive: '=?',
+                lxMenuItem: '=?',
+                lxIconColor: '@',
+                lxToggleActive: '&?'
             },
-            templateUrl: 'expandlist.html'
+            templateUrl: 'expand-item.html'
         };
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,13 +31,20 @@
         function _link($scope, $element, $attrs, $ctrl, $transclude) {
             var content = $element.find('.lx-el__content');
 
-            $scope.isActive = !!$scope.lxActive;
             $scope.preventStop = _preventStop;
             $scope.menuHandler = _menuHandler;
+            $scope.toggleActive = _toggleActive;
 
             $scope.$watch(_checkMaxHeight, _changeMaxHeight);
+            $scope.$watch('lxActive', _onChangeActive);
+
+            _init();
 
             ////////////////////////////////////////////////////////////////////////////////////////////////
+
+            function _init() {
+                $scope.active = !!$scope.lxActive;
+            }
 
             function _preventStop($event) {
                 $event.preventDefault();
@@ -46,6 +55,13 @@
                 menu.handler($event, menu, $scope.lxMenuItem);
             }
 
+            function _toggleActive($event, lxSelected) {
+                $scope.active = $scope.lxToggleActive({
+                    $event: $event,
+                    selected: lxSelected
+                });
+            }
+
             function _checkMaxHeight() {
                 return content[0].scrollHeight;
             }
@@ -54,6 +70,10 @@
                 content.css({
                     maxHeight: newHeight
                 });
+            }
+
+            function _onChangeActive(newActive) {
+                $scope.active = newActive;
             }
         }
     }

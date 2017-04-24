@@ -13,19 +13,8 @@
 </head>
 
 <body>
-    <lx-drawer-layout
-        drawer-type="{{vm.selected}}"
-
-        navigator-menus="vm.menu"
-        config-menus="vm.config"
-        
-        toolbar-bgc="bgc-blue-500"
-        toolbar-theme="dark"
-        toolbar-title="Lumx PP" 
-        toolbar-menu="vm.toolbarMenu"
-        toolbar-back-button="vm.backButton"
-        
-        drawer-users="vm.users"
+    <lx-drawer-layout drawer-type="{{vm.selected}}" navigator-menus="vm.menu" config-menus="vm.config" toolbar-bgc="bgc-blue-500"
+        toolbar-theme="dark" toolbar-title="Lumx PP" toolbar-menu="vm.toolbarMenu" toolbar-back-button="vm.backButton" drawer-users="vm.users"
         drawer-background="/background.png">
 
         <div class="fs-display-2 display-block p+">
@@ -42,17 +31,32 @@
         </div>
 
         <div class="p">
-            <lx-expand-list class="bgc-white" ng-repeat="item in vm.list" lx-label="{{item.label}}" lx-id="android" lx-menu="item.menu" lx-menu-item="item">
+            <lx-expand-item class="bgc-white" ng-repeat="item in vm.list" lx-label="{{item.label}}" lx-icon="android" lx-icon-color="blue"
+                lx-menu="item.menu" lx-menu-item="item" lx-active="false" lx-toggle-active="vm.toggleActive($event, selected, item);">
                 <form name="form" class="ph+ pb+">
                     <lx-text-field lx-label="Example">
                         <input name="exmaple" type="text" ng-model="vm.form.exmaple">
                     </lx-text-field>
-                    <lx-text-field lx-label="Example">
-                        <input name="exmaple" type="text" ng-model="vm.form.exmaple">
-                    </lx-text-field>
                 </form>
-            </lx-expand-list>
+            </lx-expand-item>
         </div>
+
+        <lx-expand-list lx-data="vm.list2">
+            <form name="form" class="p+">
+                <span>Item Label: {{data}}</span>
+                <lx-text-field lx-label="Example">
+                    <input name="exmaple" type="text" ng-model="vm.form.exmaple">
+                </lx-text-field>
+            </form>
+        </lx-expand-list>
+
+        <lx-expand-list lx-data="vm.list2" lx-icon="alert" lx-icon-color="orange" lx-menu="vm.defaultMenu">
+            <form name="form" class="ph+ pb+">
+                <lx-text-field lx-label="Example">
+                    <input name="exmaple" type="text" ng-model="vm.form.exmaple">
+                </lx-text-field>
+            </form>
+        </lx-expand-list>
     </lx-drawer-layout>
 
     <script src="./bower_components/jquery/dist/jquery.js"></script>
@@ -82,15 +86,54 @@
 
                 $rootScope.vm = {
                     backButton: false,
+                    toggleActive: _toggleActive,
+                    itemSelected: null,
 
-                    list: [
-                        {label: 'Item 1', menu: [
-                            {icon: 'arrow-up', handler: _listItemHandler, disable: true},
-                            {icon: 'arrow-down', handler: _listItemHandler},
-                            {icon: 'delete', handler: _listItemHandler}
-                        ]},
-                        {label: 'Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.'}
+                    test: function (log) {
+                        LxNotificationService.notify(log);
+                    },
+
+                    defaultMenu: [{
+                        icon: 'pencil',
+                        handler: _listItemHandler
+                    }],
+
+                    list: [{
+                            label: 'Item 1',
+                            menu: [{
+                                    icon: 'arrow-up',
+                                    handler: _listItemHandler,
+                                    disable: true
+                                },
+                                {
+                                    icon: 'arrow-down',
+                                    handler: _listItemHandler
+                                },
+                                {
+                                    icon: 'delete',
+                                    handler: _listItemHandler
+                                }
+                            ]
+                        },
+                        {
+                            label: 'Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.'
+                        }
                     ],
+
+                    list2: [{
+                        label: 'Item 1'
+                    }, {
+                        label: 'Item 2',
+                        icon: 'android'
+                    }, {
+                        label: 'Item 3',
+                        icon: 'android',
+                        iconColor: 'green',
+                        menu: [{
+                            icon: 'delete',
+                            handler: _listItemHandler
+                        }]
+                    }],
 
                     selected: 'full-height',
 
@@ -197,8 +240,7 @@
                         handler: _notification('Settings')
                     }],
 
-                    toolbarMenu: [
-                        {
+                    toolbarMenu: [{
                             icon: 'clippy',
                             title: 'Clippy',
                             showAsAction: 'ifRom',
@@ -223,6 +265,10 @@
 
                 function _onChangeUser(userSelected) {
                     LxNotificationService.notify(userSelected.name + ' selected');
+                }
+
+                function _toggleActive($event, selected, item) {
+                    return !selected;
                 }
 
                 function _listItemHandler($event, menu, item) {
